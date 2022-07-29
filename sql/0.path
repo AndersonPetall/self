@@ -1,0 +1,16 @@
+reference: 尚硅谷 MySQL
+link: https://www.bilibili.com/video/BV1iq4y1u7vj?spm_id_from=333.880.my_history.page.click
+
+MySQL 基础篇
+  1.0 数据库概述与MySQL安装
+  2.0 SQL之SELECT使用
+  3.0 SQL之DDL, DML, DCL使用
+  4.0 其他数据库对象
+  5.0 MySQL8.0其他新特性
+  
+  
+MySQL高级特性篇
+  1.0 MySQL框架篇
+  2.0 索引以及调优篇
+  3.0 事务篇
+  4.0 日志与备份篇
