@@ -60,3 +60,48 @@
 5.3分组后条件查询having
   按水费合计大于189的区域以及水费合计
   select areaID,sum(money) from T_table group by areaID having sum(money)>189
+  
+  
+  
+二, 连接查询
+1.0 多表内连接查询
+  显示OWNER表的编号，名称，OWNERTYPE的类型
+  EG：
+    select o.id 业主编号, o.name 业主名字, ot.name 业主类型
+    from T_OWNERS o, T_OWNERTYPE ot
+    where o.ownertypeid = ot.id
+  显示OWNER表的编号，名称，OWNERTYPE的类型 和 ADDRESS的地址
+  EG：
+    select o.id 业主编号, o.name 业主名字, ad.name 地址, ot.name 业主类型
+    from T_OWNERS o, T_OWNERTYPE ot, T_ADDRESS ad
+    where o.ownertypeid = ot.id and o.addressid=ad.id
+  显示OWNER表的编号，名称，OWNERTYPE的类型, ADDRESS的地址 和 AREA的区域
+  EG：
+    select o.id 业主编号, o.name 业主名字, ot.name 业主类型, ar.name 区域
+    from T_OWNERS o, T_OWNERTYPE ot, T_ADDRESS ad, T_AREA ar
+    where o.ownertypeid = ot.id and o.addressid=ad.id and ad.areaid=ar.id
+  显示OWNER表的编号，名称，OWNERTYPE的类型, ADDRESS的地址 ,AREA的区域 和 OPERATOR的收费员
+  EG：
+    select o.id 业主编号, o.name 业主名字, ot.name 业主类型, ar.name 区域, op.name收费员
+    from T_OWNERS o, T_OWNERTYPE ot, T_ADDRESS ad, T_AREA ar, T_OPERATOR op
+    where o.ownertypeid = ot.id and o.addressid=ad.id and ad.areaid=ar.id adn ad.operatorid=op.id
+2.0 左外连接查询
+  查询账务记录,如果某业主没有账务记录也要列出该业主姓名
+  WAY1:
+    SELECT ow.id, ow.name, ac.year, ac.mouth, ac.money
+    FROM T_owner ow left join T_account ac
+    on ow.od=ac.owneruuid
+  WAY2:
+    SELECT ow.id, ow.name, ac.year, ac.mouth, ac.money
+    FROM T_owner ow, T_account ac
+    WHERE ow.od=ac.owneruuid(+)
+3.0右外连接查询
+  查询账务记录,如果某账务记录没有业主也要列出该账务
+  WAY1:
+    SELECT ow.id, ow.name, ac.year, ac.mouth, ac.money
+    FROM T_owner ow right join T_account ac
+    on ow.od=ac.owneruuid
+  WAY2:
+    SELECT ow.id, ow.name, ac.year, ac.mouth, ac.money
+    FROM T_owner ow, T_account ac
+    WHERE ow.od(+)=ac.owneruuid
