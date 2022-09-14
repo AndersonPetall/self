@@ -1,0 +1,62 @@
+一, 单表查询
+1.0 简单条件查询
+1.1 精确查询
+  EG: select * from T_table where watermeter='303'
+1.2 模糊查询
+  查询名字中包含'刘'的记录
+  EG: select * from T_table where name like '%刘%'
+1.3 and运算符
+  查询名字中包含'刘'并且门牌号包含'5'的记录
+  EG: select * from T_table where name like '%刘%' and housenumber like '%5%'
+1.4 or运算符
+  查询名字中包含'刘'或者门牌号包含'5'的记录
+  EG: select * from T_table where name like '%刘%' or housenumber like '%5%'
+1.5 and与or运算符混合使用
+  EG: select * from T_table where (name like '%刘%' or housenumber like '%5%') and addressid = 3
+1.6 范围查询
+  方法1: >= 和 <=
+    select * from T_account 
+    where usenum >= 100 and usenum <= 200
+  方法2: between..and..
+    select * from T_account
+    where usenuim between 100 and 200
+1.7 空值查询
+  查询表中数据为空的记录
+  EG: select * from T_table where MAXNUM is null
+  查询表中数据为不为空的记录
+  EG: select * from T_table where MAXNUM is not null
+2.0 去掉重复记录
+  查询表中地址ID (不重复显示)
+  EG: select distinct addressID from T_table
+3.0 排序查询
+3.1 升序排序
+  EG: select * from T_table order by usenum
+3.2 降序排序
+  EG: select * from T_table order by usenum desc
+4.0 基于伪列的查询
+  定义:伪列并不储存(不能增删改), 只能查询
+4.1 ROWID
+  定义: 每行的物理地址
+  EG: select rowID,t.* from T_table
+  EG: select rowID,t.* from T_table where ROWID = 'xxxxx'
+4.2 ROWNUM
+  定义: 每行的ID(从１开始向下)
+  EG: select rownum,t.* from T_table t
+5.0 聚合统计
+5.1 聚合函数
+  sum求和: 统计用水总量和
+  EG: select sum(usenum) from T_table where year='2012'
+  avg求平均: 统计用水平均值
+  EG: select avg(usenum) from T_table where year='2012'
+  max求最大: 统计用水最大值(数字)
+  EG: select max(usenum) from T_table where year='2012'
+  min求最大: 统计用水最小值(数字)
+  EG: select min(usenum) from T_table where year='2012'
+  count求最大: 统计ID为1的业主个数
+  EG: select count(*) from T_table where ownertypeID=1
+5.2 分组聚合Group by
+  按区域分组统计水费合计
+  select areaID,sum(money) from T_table group by areaID
+5.3分组后条件查询having
+  按水费合计大于189的区域以及水费合计
+  select areaID,sum(money) from T_table group by areaID having sum(money)>189
