@@ -35,3 +35,34 @@ IDEA中项目结构介绍
 负数的反码是在其原码的基础上，符号位不变，其余各位取反，最后+1（即在反码的基础上+1）
 [+1] = [00000001]原 = [00000001]反 = [00000001]补
 [-1] = [10000001]原 = [11111110]反 = [11111111]补
+
+
+
+
+
+switch 新特性
+syntax:
+  switch(variable){
+    case VariableValue1:
+      do sth;
+      break;
+    case VariableValue2:
+      do sth;
+      break;
+    default:
+      do sth;
+      break;
+  }
+  新特性:
+  单个
+  switch(variable){
+    case VariableValue1 -> do sth;
+    case VariableValue2 -> do sth;
+    default -> do sth;
+  }
+  多个
+  switch(variable){
+    case VariableValue1, VariableValue2, VariableValue3-> do sth;
+    case VariableValue4, VariableValue5 -> do sth;
+    default -> do sth;
+  }
