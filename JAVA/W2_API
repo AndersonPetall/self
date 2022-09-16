@@ -1,0 +1,29 @@
+Scanner 
+  Scanner sc = new Scanner(System.in)
+  double result = sc.nextDouble();
+  
+  
+String
+创建方式1: 
+  String s1 = "abs";
+创建方式2:
+  String s2 = new String();
+传递1:
+  String s3 = new String(original:"ABd");
+传递2:
+  char[] chs = {'a', 'b','c'};
+  String s4 = new String(chs);
+  byte[] num = {93, 97, 101};
+  String s4 = new String(num);
+
+创建方式与内存
+  当使用双引号直接赋值的适合,系统会检查该字符串是否在串池子StringTable(堆中)存在
+    存在,则复用; 不存在,则创建
+  当使用new进行创建的时候, 无论是否存在, 创建对应字符串
+  
+字符串比较
+  WAY1.0: == (基本数据类型比较数据值,引用数据类型比较地址值)
+  WAY2.0:  boolean a = s1.equals(s2)  大小写重要)
+  WAY3.0:  boolean a = s1.equalsIgnoreCase(s2)  (忽视大小写)   
+EG: Scanner cs = new Scanner(System.in); string s1 = cs.next();
+    string s2 = "abc";   s1 == s2; //false 一个new,一个双引号赋值,地址不同    s1.equals(s2) //true
