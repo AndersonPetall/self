@@ -78,3 +78,17 @@ arrry.length
 
 方法function
 public static void playGame(){do sth;}
+
+
+
+类 
+(默认为公共权限)
+public class Name{
+  成员变量;
+  成员函数;}
+Name one = new Name();
+one.成员 = sth;
+
+private关键字
+this关键字
+Name one = new Name(成员1:sth, 成员2:sth}
