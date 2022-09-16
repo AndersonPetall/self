@@ -66,3 +66,15 @@ syntax:
     case VariableValue4, VariableValue5 -> do sth;
     default -> do sth;
   }
+
+
+
+数组Array
+int[] name = new int[]{1,2,3,4}    new int[]{}
+int[] name = {1,2,4,56}   {}
+arrry.length
+
+
+
+方法function
+public static void playGame(){do sth;}
