@@ -27,3 +27,6 @@ String
   WAY3.0:  boolean a = s1.equalsIgnoreCase(s2)  (忽视大小写)   
 EG: Scanner cs = new Scanner(System.in); string s1 = cs.next();
     string s2 = "abc";   s1 == s2; //false 一个new,一个双引号赋值,地址不同    s1.equals(s2) //true
+
+字符串长度
+string.length()   (是一个方法, array.length是一个属性)
