@@ -65,3 +65,10 @@ git statues 版本状态
   绿色修改, 表明修改只存在于 工作区&暂存区    前推 git commit -m
   
   
+  
+历史版本回滚
+  查看 (方向上下键)
+    git log
+    git log --oneline
+    git reset --hard  版本号
+  查看所有操作记录  git reflog
