@@ -12,7 +12,10 @@ ctrl + c  取消命令(cancel)
 tab  自动补全路劲
 方向键上下  查看命令历史
 history  查看所有命令历史
-
+ 
+常见的退出
+  ctrl + c
+  q
 
 vim  test.html  编辑文件(不存在则创造)
 i  进入编辑模式
