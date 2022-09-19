@@ -1,0 +1,5 @@
+起始配置
+git config --global user.name "Your name"
+git config --global user.email "123@gmail.com"
+查看配置信息
+git config -l
