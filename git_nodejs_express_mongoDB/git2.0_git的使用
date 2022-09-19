@@ -12,3 +12,4 @@ git config -l
 4.0 创建一个初始化文件index.html
 5.0 git add index.html将文件加入到暂存区
 6.0 git commit -m '注释'  提交到仓库,m代表message
+git log 查看历史版本
