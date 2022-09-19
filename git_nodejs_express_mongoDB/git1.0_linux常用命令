@@ -24,4 +24,6 @@ esc + :q!  不保存并退出
 
 
 复制  ctrl + c
-粘贴  shift + insert (shift + fn1 + insert)
+粘贴  
+  鼠标右键
+  shift + insert (shift + fn1 + insert)
