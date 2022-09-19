@@ -3,3 +3,12 @@ git config --global user.name "Your name"
 git config --global user.email "123@gmail.com"
 查看配置信息
 git config -l
+
+
+基本操作
+1.0 创建并且进入空文件夹
+2.0 右键->点击Git Bash Here启动命令行
+3.0 git init仓库初始化
+4.0 创建一个初始化文件index.html
+5.0 git add index.html将文件加入到暂存区
+6.0 git commit -m '注释'  提交到仓库,m代表message
