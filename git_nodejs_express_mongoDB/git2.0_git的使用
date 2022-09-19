@@ -13,3 +13,19 @@ git config -l
 5.0 git add index.html将文件加入到暂存区
 6.0 git commit -m '注释'  提交到仓库,m代表message
 git log 查看历史版本
+
+
+初始化 ==>  编辑  ==>  加入暂存区  ==>  提交
+编辑
+  vim 
+  Hbuilder
+  资源管理操作
+加入暂存区
+  git add 文件名  (实际上是添加修改)
+  git add A
+提交
+  git commit -m '文本注释'
+  git commit(出现vim编辑窗口,输入注释,保存退出)
+
+
+
