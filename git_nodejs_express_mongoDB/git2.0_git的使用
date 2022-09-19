@@ -59,3 +59,9 @@ git的常用命令
   git commit -m '注释'  提交修改并且注释
   dit diff  查看工作区与暂存区的差异(不显示新增文件) 显示做了哪些修改
   dig diff --cached  查看暂存区与仓库的差异
+
+git statues 版本状态
+  红色修改, 表明修改只存在于 工作区    前推 git add
+  绿色修改, 表明修改只存在于 工作区&暂存区    前推 git commit -m
+  
+  
