@@ -72,3 +72,24 @@ git statues 版本状态
     git log --oneline
     git reset --hard  版本号
   查看所有操作记录  git reflog
+  
+  
+  
+配置忽略的文件
+1.0 仓库中未提交的文件
+说明: 项目中有些文件不应该储存到版本库中. Git中需要创建一个我呢见 [gitignore]配置忽略, 一般与 .git目录同级(也可在子文件夹下)
+常见的情况:
+  临时文件
+  多媒体文件, 如音频,视频
+  编辑器生成的配置文件(.idea)
+  npm安装的第三方模块
+#忽略所有的 .idea文件  .idea
+#忽略所有的 .test结尾文件  .test
+#忽略node_modules文件和文件夹  /node_modules
+2.0 仓库中已经提交的文件
+三个步骤:
+  步骤1: 对于已经加入到版本库的文件,可以在版本库中删除该文件
+    git rm --cached .idea
+  步骤2: 然后在 .gitignore 中配置忽略
+    .idea
+  步骤3: add 和 commit 提交
