@@ -1,0 +1,30 @@
+StringBulider
+可以看作是一个容器,创建之后里面的内容是可变的  StringBulider sb = new StringBulider("");
+作用:提高字符串的操作效率
+常用方法:
+  public StringBulider append(任意类型)  添加数据,返回对象本身
+  public StringBulider reverse()  反转容器中的内容
+  public int length()  返回长度(字符出现的个数)
+  public String toString()  StringBuliuder转换为String
+  
+  
+  
+StringJoiner
+  指定中间的间隔, 开头以及结尾  StringJoiner sj = StringJoiner("---"), StringJoiner sj = StringJoiner(", ", "[", "]")
+常用方法
+  public StringJoiner add(添加内容)  添加数据,返回对象本身
+  public int length()  返回长度(字符出现的个数)
+  public String toString()  返回字符串(拼接后的结果)
+  
+字符串原理
+  1.0 内存原理
+    直接复制会复用字符串常量池中的已存在字符串
+    new出来不会复用, 而是开辟一个新的空间
+  2.0 ==号比较
+    基本数据类型比较数据值
+    引用数据类型比较地址值
+  3.0 字符串拼接原理
+    情况1: 等号右边没有变量参与 String str = "a" + "b" + "c";
+      触发字符串优化机制,在编译的时候(java文件到class文件)就已经是最总的结果了
+    情况2: 等号右边有变量参与  String s1 = "aa"; String s2 = s1 + "b";
+      每一个+号,堆中创建两个对象 new StringBuilder() ==toString==> String
