@@ -18,8 +18,8 @@ history  查看所有命令历史
 git  --help
 git -h 
 git remote -h
-ls -h
-cd -h
+ls -h/ --help
+cd -h/ --help
 
 
 常见的退出
