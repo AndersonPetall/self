@@ -110,7 +110,7 @@ Git的分支
   合并分支  git merge name    PS:将A分支合并到B分支上,则必须在B分支上操作, A分支被合并了也依然存在
   删除分支  git branch -d name 
   创建并切换分支  git checkout -b name  
-
+  查看branch命令 git branch -h
 PS:每次切换分支钱 提交一下当前的分支, 防止工作区内容对目标分支出现干扰(不提交则工作区文件将出现在切换后的分支)
 
 
