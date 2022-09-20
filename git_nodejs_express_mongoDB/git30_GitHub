@@ -115,3 +115,22 @@ git push -u origin dev / git push(之前添加-u,后续可以不添加别名和�
     推送代码
       git push
 //冲突解决: 同分支冲突出现情况一样, 将代码调整至最终的样式,提交代码即可
+
+
+
+
+
+常见问题
+CRLF 是Carriage-Return Line-Feed 的缩写
+CR代表ASCII码的第13个符号 \r 回车, LF代表ASCII码的第10个符号 \n 换行
+每个操作系统的回车以及换行的储存方式不同
+  Windows: CR \r, LF \n
+  Linux&Unix: LF \n
+  Mac: CR \r
+  
+冲突: 本地代码需要更新, 首先运行git pull 命令
+提交错误:
+  fatal: The current branch master has no upstream branch
+  To push the current branch and set the remote as upstream, use
+  如果第一次将本地提交到远程, 直接使用git push 会报错, 解决: git push -u origin master/main
+  
