@@ -10,17 +10,18 @@ GitHub
   4 本地配置远程仓库的地址
     git remote add origin https://github.com/用户名/仓库名.git
     //远程仓库管理  
+    remote 远端
     add  添加
     origin 远端仓库的别名
-    https://github.com/用户名/仓库名.git  仓库地址
+    https://github.com/用户名/仓库名.git  仓库地址(远端仓库的别名)
   5 本地提交(确认代码已经提交到本地仓库)
   6 将本地仓库内容推送到远程仓库
-    git push -u origin master
-    //
+    git push -u origin master/main
+    //将本地仓库的某个"分支"推送到远端的"分支"上
     push 推送
-    -u  关联,加上以后,后续提交的时候可以直接使用git push
+    -u  分支关联,加上以后,后续提交的时候可以直接使用git push(提交添加-u之后,后续提交时可以不需要再添加别名与分支名)
     origin 远端仓库的别名
-    master 本地仓库的分支
+    master/main 本地仓库的分支名
 
 情况1.0 GitHub提示
 (情况说明)
@@ -30,5 +31,32 @@ GitHub
   git branch -M main  (仓库名(从master)改为mian)
   git push -u origin main  
 
+相关代码
+git remote remove 别名  //修改别名
+git remote  /查看别名
+
+
+后续修改内容以及再次提交
+git add -A
+git commit -m 'note'
+git push -u origin main / git push origin main
+新建仓库并且提交
+git checkout -b dev
+git touch dev.html
+git add -A
+git commit -m '创建dev'
+git push -u origin dev / git push(之前添加-u,后续可以不添加别名和仓库名)
+
+
 
 情况2.0  本地没有仓库
+  1 注册并激活账号
+  2 克隆仓库
+    git clone https://github.com/
+  3 增加和修改代码
+  4 本地提交
+    git add -A
+    git commit -m 'massage'
+  5 推送到远程
+    git pushorigin master
+//克隆代码之后,本地仓库会默认有一个远程地址的配置,名字为origin
