@@ -30,3 +30,5 @@ EG: Scanner cs = new Scanner(System.in); string s1 = cs.next();
 
 字符串长度
 string.length()   (是一个方法, array.length是一个属性)
+字符串替换,返回字符串本身
+string.replace(target: "A", replacement"Q")
