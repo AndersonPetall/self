@@ -1,0 +1,10 @@
+Git的分支
+说明: 分支是Git重要的功能特性之一,开发人员可以在主开发线路的基础上分离出新的开发线. branch
+
+基本操作
+  创建分支  git branch name
+  查看分支  git branch
+  切换分支  git checkout name
+  合并分支  git merge name
+  删除分支  git branch -d name
+  创建并切换分支  
