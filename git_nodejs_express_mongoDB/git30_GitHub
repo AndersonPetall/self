@@ -1,22 +1,25 @@
-Git的分支
-说明: 分支是Git重要的功能特性之一,开发人员可以在主开发线路的基础上分离出新的开发线. branch
-在分支A上创建B分支, 若分支A有文件a, 分支B有文件b, 则分支A可以看见文件a, 分支B可以看见文件a和b(可能产生冲突)
-
-基本操作
-  创建分支  git branch name
-  查看分支  git branch
-  切换分支  git checkout name
-  合并分支  git merge name    PS:将A分支合并到B分支上,则必须在B分支上操作, A分支被合并了也依然存在
-  删除分支  git branch -d name 
-  创建并切换分支  git checkout -b name  
-
-PS:每次切换分支钱 提交一下当前的分支, 防止工作区内容对目标分支出现干扰(不提交则工作区文件将出现在切换后的分支)
+GitHub
+介绍: GitHub是一个Git仓库管理的网站.可以简历远程中心仓库,为多人合作开发提供遍历.  ==>  Git仓库的管理生态
 
 
-冲突
-说明: 当多个分支修改同一个文件之后,合并分支的时候就会产生冲突. 
-冲突的解决非常的简单: 将内容修改为最终想要的结果, 然后执行git add 与git commit 就可以了
-查看方式:
-  提示automatic merge fail
-  MERGINNG 出现, 则意味着冲突
-  git status 查看
+使用流程:
+情况1.0  本地有仓库
+  1 注册并激活账号
+  2 建立仓库
+  3 获取仓库的地址
+  4 本地配置远程仓库的地址
+    git remote add origin https://github.com/
+    //远程仓库管理  
+    add  添加
+    origin 远端仓库的别名
+    htttps://github.com/xia  仓库地址
+  5 本地提交(确认代码已经提交到本地仓库)
+  6 将本地仓库内容推送到远程仓库
+    git push -u origin master
+    //
+    push 推送
+    -u  关联,加上以后,后续提交的时候可以直接使用git push
+    origin 远端仓库的别名
+    master 本地仓库的分支
+
+情况2.0  本地没有仓库
