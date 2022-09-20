@@ -93,3 +93,31 @@ git statues 版本状态
   步骤2: 然后在 .gitignore 中配置忽略
     .idea
   步骤3: add 和 commit 提交
+
+
+
+
+
+
+Git的分支
+说明: 分支是Git重要的功能特性之一,开发人员可以在主开发线路的基础上分离出新的开发线. branch
+在分支A上创建B分支, 若分支A有文件a, 分支B有文件b, 则分支A可以看见文件a, 分支B可以看见文件a和b(可能产生冲突)
+
+基本操作
+  创建分支  git branch name
+  查看分支  git branch
+  切换分支  git checkout name
+  合并分支  git merge name    PS:将A分支合并到B分支上,则必须在B分支上操作, A分支被合并了也依然存在
+  删除分支  git branch -d name 
+  创建并切换分支  git checkout -b name  
+
+PS:每次切换分支钱 提交一下当前的分支, 防止工作区内容对目标分支出现干扰(不提交则工作区文件将出现在切换后的分支)
+
+
+冲突
+说明: 当多个分支修改同一个文件之后,合并分支的时候就会产生冲突. 
+冲突的解决非常的简单: 将内容修改为最终想要的结果, 然后执行git add 与git commit 就可以了
+查看方式:
+  提示automatic merge fail
+  MERGINNG 出现, 则意味着冲突
+  git status 查看
