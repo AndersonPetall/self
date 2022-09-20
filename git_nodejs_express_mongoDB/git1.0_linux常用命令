@@ -13,6 +13,15 @@ tab  自动补全路劲
 方向键上下  查看命令历史
 history  查看所有命令历史
  
+ 
+获取帮助
+git  --help
+git -h 
+git remote -h
+ls -h
+cd -h
+
+
 常见的退出
   ctrl + c
   q
