@@ -2,6 +2,38 @@ ECMA script是ECMA-262标准化的脚本程序设计语言
 
 let声明变量
   不允许重复声明
+  块级作用域 (var是全局作用域)
+  不存在变量提升 (不能先使用变量,后申明变量)
+  不影响作用域链 (函数内可以使用函数外的变量)
+  
+  
+const声明常量
+  声明的时候一定要赋初值
+  常量的名称一般为'大写'
+  不能修改常量的值
+  不允许重复声明
   块级作用域
-  不存在变量提升
-  不影响作用域链
+  关于数组和类对象的元素的修改  (保存的是引用对象的地址,不是值)
+    const TEAM = ['UZI', 'MLXG'];  TEAM.push('XIYE');(可行) TEAM = 100;(报错)
+    const BIN = {name: 'bin'} BIN.name = '啊斌';(可行)
+    
+    
+
+变量的结构赋值
+ES6允许按照一定的牧师从数组和对象中提取值, 对变量进行赋值, 这被称为结构赋值
+  数组的结构赋值
+  const arr = ['郭德纲', '赵本山', '小沈阳']
+  let [guo, zhao, xiao] = arr;
+  console.log(guo, zhao, xiao];  //结果为: 郭德纲 赵本山 小沈阳
+  对象的结构赋值
+  const star ={
+    name:'赵本山',
+    tag:['抽烟','烫头','喝酒'], 
+    say: function(){ console.log("说相声");}
+  }
+  let{name, tag, say} = star;
+  let{name, tag:[chou,tang,he], say} = star; //tag不存在, 只有[]内的结构
+  console.log(name);
+  console.log(tag);
+  console.log(say);
+    
