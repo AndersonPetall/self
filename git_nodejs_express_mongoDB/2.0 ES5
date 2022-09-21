@@ -17,7 +17,8 @@ PS:  对于属性的值的设置,  只能用 value  或者 get/set两个其中�
 Object.defineProperties
 作用
 syntax: Obejct.defineProperties(object, descriptors)
+Object.defineProperties直接在一个对象上定义属性或者修改现有的属性,并且返回该对象
   object  要操作的对象
   descriptors  属性描述
-    get  
-    set  
+    get  作为该属性的getter 函数, 如果没有getter则为undefined. 函数返回值将被用作属性的值
+    set  作为属性的setter 函数, 如果没有setter则为undefined. 函数将仅接受参数赋值给该属性的新值
