@@ -1,4 +1,7 @@
-Object扩展方法  ==>  继承
+Object扩展方法  
+
+Object.create
+作用类似 继承
 syntax: Object.create(prototype, [descriptors])
 Object.create方法可以以指定对象为原型创建新的对象,统一可以为新的对象设置属性, 并且对属性进行描述
   value  指定值
@@ -8,3 +11,13 @@ Object.create方法可以以指定对象为原型创建新的对象,统一可以
   (accessor)get  当获取当前属性时的回调函数(函数的执行结果将作为属性的值)  ==>  作用于 动态属性的获取
   (accessor)set  当设置当前属性  ==>  作用域  属性的设置的检测
 PS:  对于属性的值的设置,  只能用 value  或者 get/set两个其中的一个来进行设置
+
+
+
+Object.defineProperties
+作用
+syntax: Obejct.defineProperties(object, descriptors)
+  object  要操作的对象
+  descriptors  属性描述
+    get  
+    set  
