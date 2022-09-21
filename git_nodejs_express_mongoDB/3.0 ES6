@@ -37,3 +37,31 @@ ES6允许按照一定的牧师从数组和对象中提取值, 对变量进行赋
   console.log(tag);
   console.log(say);
     
+
+
+模板字符串
+template string是增强版的字符串, 用反引号(`)标识,
+特点
+  字符串中可以出现换行符
+    let str = `<ul>
+      <li>沈腾</li>
+      <li>玛丽</li>
+    </ul>`
+  可以使用 ${xxx} 形式输出变量
+    let str1 = `马三立`;
+    let str2 = `我特别喜欢 ${str1}, 风格很好`;
+    
+    
+简化写法
+ES6允许在大括号里面,直接写入变量和函数,作为对象的属性和方法
+  let name = '我是谁';
+  let slogo = '追求卓越';
+  let improve = function(){
+    console.log('提高能力');}
+  let zh = {
+    name,
+    slogo,
+    improve,
+    //change: function(){console.log(可以改变你');},
+    change(){ console.log(可以改变你');} }
+    
