@@ -65,3 +65,126 @@ ES6允许在大括号里面,直接写入变量和函数,作为对象的属性和
     //change: function(){console.log(可以改变你');},
     change(){ console.log(可以改变你');} }
     
+
+
+箭头函数
+ES6允许使用[箭头] (=>) 定义函数
+  声明格式
+    let add = (a,b,c) => {return a+b+c};
+  调用方式
+    add(1,1,1)
+    add.call({},2,2,2};
+    add.apply({},3,3,3};
+  函数特点1.0  this的值是静态的
+    let getName = () => { console.log(this);}  箭头函数的this是函数外层作用域的this的值
+  函数特点2.0  不能作为析构函数使用
+    function Person(){};  // const Person = () => {} 报错
+    let me = new Person()
+  函数特点3.0  不能使用arguments
+    function fn(){ console.log(arguments);}  //arguments是伪数组
+    // const fn = () => { console.log(arguments);}  报错
+    fn(2,3,4,5,6,7); 
+  函数特点4.0  箭头函数简写
+    一, 不写小括号, 当形参有且仅有一个的时候
+      let pow = num => {return num*num;}
+    二, 不屑花括号, 当代码只有一条语句的时候,并且语句的执行结果为函数返回值的(如果不屑花括号的话, return也不能书写)
+      let pow = num => num * num;
+      let rand = (m,n) => Math.ceil(Math.random() * (n-m+1)) + m-1;
+
+箭头函数的实际引用: 回调函数
+EG1: 点击2 秒后 变色
+  const ad = document.getElementById('ad');
+  ad.onclick = function(){
+    setTimeout(()=>{
+      this.style.background = 'pink';} 2000)}
+EG2: 判断数组中的偶数
+  const arr = [2,3,4,5,8,9,11,123,41,59,3002];
+  const result = arr.filter(item => item % 2 === 0);
+PS:  如果回调函数与this的值相关,则不能使用箭头函数  
+  事件的回调
+    ad.onclick = () => { console.log(this);}
+  对象的方法
+    var obj = { run: function(){console.log(this);} }
+    
+    
+    
+ES允许给参数赋初值
+1.0  参数直接设置默认值,  具有默认值的参数,位置一般靠后
+  function(a, b, c = 10) { return a+b+c;)
+2.0  与结构赋值结构是哟纪念馆  结构赋值的形式先后顺序不影响
+  function connect(host = '127.0.0.1', port, pass, dbname){
+    console.log(host); console.log(port); console.log(pass), console.log(dbname);
+  }
+  connect({
+    //host: '127.0.0.1',
+    port: 2790,
+    pass: 'root',
+    dbname: 'project' });
+    
+    
+    
+rest参数
+arguments的使用
+  function main(){ console.log(arguments);} 
+  main(1,2,4,5);  
+  显示: Arguments(4)[1,2,4,5]  (伪数组)
+rest的使用
+  function main(...a){ console.log(arts);} 
+  function main(...args){ console.log(arts);} 
+  main(1,2,4,5);  
+  显示: (4)[1,2,4,5]   (数组)
+  
+  //rest必须放在最后面
+  function main(a,b, ...args){ console.log(arts);} 
+  main(1,2,3,4,5,6,7);  
+  显示: 
+    1
+    2
+    (5)[3,4,5,6,7]   (数组)
+    
+    
+    
+    
+spread拓展运算符
+也是(...), 可以理解为rest 的逆运算. 将一个数组转为逗号分隔的参数序列, 对数据进行解包
+1.0  数组的展开
+  将数组展开为逗号分隔的参数序列
+  const arr = ['王', '二', '红']
+  function fn(){ console.log(arguments);}
+  fn(...arg); 
+  //..arg 将数组['王', '二', '红'] 展开为 '王', '二', '红'
+  //等同于 调用 fn('王', '二', '红')
+2.0  对象的展开
+  const skillOne = {q:'天音破'};
+  const skillTwo = {w:'金钟罩'};
+  const skillThree = {e:'天雷击'};
+  const mangseng = {...skillOne, ...skillTwo, ...skillThree}
+  //mangseng 是一个新的对象, 里面有三个属性
+
+拓展运算符的应用
+1.0 数组的合并
+  const arr1 = [1,2,3,4,5];
+  const arr2 = [11,12,13];
+  const arr3 = [...arr1, ...arr2];
+2.0 数组的克隆
+  const arr4 = [...arr1, 'x', 'y']
+3.0 将伪数组转换为真正的数组
+  const divs = document.querySelectorAll('div');
+  const result = [...divs];
+  
+  
+  
+Symbol
+原始数据类型Symbol, 表示独一无二的值. 是JS的 第七种数据类型, 是一种类似于字符串的数据类型
+特点1.0  Symbol 的值是唯一的, 用来i解决命名冲突的问题
+
+特点2.0  Symbol值不能与其他数据进行运算
+  
+  
+  
+  
+  
+  
+  
+  
+  
