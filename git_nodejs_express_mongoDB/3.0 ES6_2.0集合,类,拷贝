@@ -129,5 +129,51 @@ class类中的get和set 方法
 
 
 
+浅拷贝和深拷贝  ==>  引用数据类型
+浅拷贝:复制的结果如果发生变化对原数据造成了影响,就称之为浅拷贝
+深拷贝:复制的结果如果发生变化对原数据不能造成任何影响,就称之为深拷贝
 
-  
+浅拷贝:
+数组EG1  
+  lat arr1 = [1,2,3]; const arr2 = arr;
+  arr2[0] = 9;   //arr1[0] 也变为9
+数组EG2 
+  lat arr1 = [{name:'pig'},2,3]; const arr2 = [].concat(arr1);    //concat  将原数组的数据进行一一复制
+  arr2[0].name = 'tiger'  //arr1[0] 'tiger'
+数组EG3  let arr2 = arr.slice(0)
+数组EG4  let arr2 = [...arr1]
+对象EG1  const school = {};  const newSchool = Object.assign({}, school};
+
+深拷贝:   
+  const school = {
+    name: 'UNNC',
+    pos: ['ningbo','zhejiang','China'],
+    founder: {name: 'princess'}
+    change:function(){console.log('改变');}}
+方法1: JSON实现深拷贝  (缺陷:不能复制方法)
+stringfy 将 JS 对象转化为 JSON 格式的字符串;  parse 将 JSON 格式的字符串转换为 JS 对象
+  let str = JSON.stringfy(school);
+  let newschool = JSON.parse(str);
+方法2: 递归深拷贝 -原理
+  const school = {};
+  newschool.name = school.name;
+  newschool.pos = []; newschool.pos[0] = school.pos[0]......
+  newschool.founder = {}; newschool.founder.name = school.founder.name
+  //方法
+  newschool.change = school.change.bind(newschool);
+方法2: 递归深拷贝 -实现(封装函数)
+  function deepClone(data){
+    let type = getDataType(data)
+    if(type === 'Object')  let container = {};
+    if(type === 'Array')  let container = [];
+    for(let i in data){
+      let type1 = getDataType(data[i]);
+      if(type1 === 'Array' || type1 === 'Object') containers[i] = deepClone(data[i]);
+      else container[i] = data[i];
+    }
+    return container;
+  }
+  //封装一个函数  用来获取数据类型  Object / Array
+  function getDataType(data){
+    return Object.prototype.toString.call(data).slice(8,-1);
+  }
