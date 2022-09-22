@@ -177,14 +177,55 @@ spread拓展运算符
 Symbol
 原始数据类型Symbol, 表示独一无二的值. 是JS的 第七种数据类型, 是一种类似于字符串的数据类型
 特点1.0  Symbol 的值是唯一的, 用来i解决命名冲突的问题
-
+  方式1: let s1 = Symbol();
+  方式2: let s2 = Symbol('我是猪'), s3 = Symbol('我是猪'); console.log(s2 === s3); //false
+  方式3: let ss1 = Symbol.for('200'), ss2 = Symbol('200'); console.log(ss1 === ss2); //true;
 特点2.0  Symbol值不能与其他数据进行运算
+  let game = {
+    name: "游戏",
+    up: function(){} };
+  //直接添加方法会造成属性的冲突  game.up = function(){};
+  //方法: 利用Symbol  进行外部添加
+  let method = { up: Symbol(), down: Symbol()}
+  game[method.up] = function() { console.log('向上移动');}
+  调用: game[method.up]();
+  //拓展  如何内部添加方法
+  let str = 'run';
+  let game = {name:'游戏', [str]: function(){}};  //对象game下方法名称为run 
+  let game = {name:'游戏', [method.up]: function(){}}; 
   
   
-  
-  
-  
-  
-  
-  
-  
+Symboln内置的值  ==>  自动调用拓展对象的特性
+EG:  Symbol.replace
+let obj = {[Symbol.replace]: function(){console.log('我被replace方法调用了');}}
+let str = 'what's wrong';
+let result = str.replace(obj, 'xxx');  //打印: 我被replace方法调用了
+
+
+
+
+迭代器
+迭代器(iterator)是一种接口,为各种不同的数据结构提供统一的访问接口, 用以完成遍历操作 (for...of)
+  Array, Arguments, Set, Map, String, TypedArray, NodeList
+EG:
+  let arr = ['王','二','风'];
+  for(let v of arr) { console.log(v);};  //数组内的值  王 二 风
+  for(let i in arr) { console.log(i);};  //数组内的索引  0 1 2
+工作原理
+  1.0  创建一个指针对象, 指向当前数据解耦给的起始位置
+  2.0  第一次调用对象的next 方法, 执政自动指向数据结构的第一个成员
+  3.0  接下来不断调用next 方法,指针一直向后移动, 直到指向最后一个成员
+  4.0  每次调用next 方法, 返回一个包含 value 和done 属性的对象   done为false 意味迭代没有结束,value不为空, done 为true 意味迭代结束, value为undefined
+得到iterator
+  const iterator =  arr[Symbol.iterator]();  //返回的是一个指针对象
+书写Symbol.iterator  自定义数据类型
+  const team = {
+    name: "第一次方式自定义",
+    members: ['breath', 'knight', 'wei', 'UZI'],
+    [Symbol.iterator]: function(){
+      let index = 0;
+      return {
+        next: () => {
+          const result = {value: this.member[index++], done: false};
+          if(index >= this.members.length) result.done = true;
+          return result; } } } }
