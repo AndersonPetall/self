@@ -36,4 +36,59 @@ Map结构  键值对
   可用for...of 遍历
 声明和创建
   const m1 = new Map();
-    
+  m1.set('mei', '小橙子');
+  let key = {};  m1.set(key, 'auguigu');
+  
+  
+  
+class类
+原方法:
+  //创建对象的方式 new Object{} 工厂函数 构造函数 Object.create
+  function Phone(brand, price){ this.brand = brand; this.price = price;}
+  //添加方法
+  Phone.prototype.call = function(someone) { console.log(`我可以给$(someone)大电话`);}
+  //实例化对象
+  const nokia = new Phone('诺基亚', 233);
+class方法:
+  class Phone {
+    //构造   不是必须的,但是只能有一个
+    constructor(brand, price){this.brand = brand; this.price = price;}
+    //方法
+    call(someone){ console.log(`我可以给$(someone)大电话`);}
+    //静态成员与方法   被类直接调用,而不是类的实例
+    static name = '手机'
+    static change(){console.log('123');}
+  }
+  
+类的继承
+原方法:
+    function Phone(brand, price){ this.brand = brand; this.price = price;}
+    function SmartPhone(brand, price, storage, pixel){ 
+      //调用父类的函数  属性的初始化
+      Phone.call(this, brand, price);
+      this.storage = storage; this.pixel = pixel;}
+class方法:
+  class Phone{
+    constructor(brand, price){this.brand = brand; this.price = price;} }
+  class SmartPhone{
+    constructor(brand, price, storage, pixel){
+      super(brand, price);
+      this.storage = storage; this.pixel = pixel;} }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
