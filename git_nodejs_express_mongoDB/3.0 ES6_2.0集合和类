@@ -70,22 +70,61 @@ class方法:
 class方法:
   class Phone{
     constructor(brand, price){this.brand = brand; this.price = price;} }
-  class SmartPhone{
+  class SmartPhone extends Phone{
     constructor(brand, price, storage, pixel){
       super(brand, price);
       this.storage = storage; this.pixel = pixel;} }
 
+class类中的get和set 方法
+  class Phone{
+    get price(){ return 200;}
+    set price(v){this.jiage = v;}
+    static get size( return 1.1;}
+    static set size(v) {this.chicun = v;}
+  }
 
 
 
 
 
 
+数值扩展
+  1.0  二进制和八进制
+    let n = 0b111; 四进制
+    let n = 0o111; 八进制
+    let n = 0x111; 十六进制
+  2.0  Number.isFinite  检测一个数值是否为有限数
+    console.log(Number.isFinite(Math.PI));  //true
+  3.0  Number.isNan  检测一个属值是否为NaN  
+    //全局函数  isNan(num)
+    console.log(Number.isNan(NaN)); //true
+  4.0  Number.parseInt  字符串转整数
+    console.log(Number.parseInt('5252love'));  //5252
+    console.log(Number('5252love'));  //NaN
+  5.0  Math.trunc  将数字的小数部分抹掉
+    console.log(Math.trunc(3.131415));  //3
+  6.0  Number.isInteger  判断一个数是否为整数
+    console.log(Number.isInteger(3.131415));  //false
+  7.0  幂运算  Math.pow()
+    console.log(Math.pow(2 ** 10));  //1024
 
 
 
 
-
+对象的拓展
+  1.0  判断两个值是否完全相等  ===  Object.is
+    let n1 = 100, n2 = 300;
+    console.log(Object.is(n1, n2));  //false
+    console.log(NaN === NaN);  //false
+    console.log(Object.is(NaN, NaN));  //true
+  2.0  Object.assign  对象的合并
+    const A = {name: "akl"}; const B = {pos:['toronto', 'on']}
+    Object.assign(A, B); //将 B 的属性加到 A 身上
+    const res = Object,assign(A, B, C);
+  3.0  直接修改 __proto__ 设置原型
+    const A = {name: "father"}; const B = {test:'test'}
+    B.__prote = A;
+    //B 中包含 A的属性
 
 
 
