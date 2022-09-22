@@ -8,3 +8,70 @@ NodeJS
   后端的 Web服务, 例如服务器端的请求(爬虫), 代理请求(跨域)
   前端项目打包( webpack, gulp)
   
+JS  存在于服务端   不能对硬盘进行操作, 应用于内存和网络
+NodeJS  存在于服务端(一个或者多个电脑)   应用于 硬盘, 内存和网络
+
+
+NodeJS执行 JS文件的步骤
+  打开cmd  ==>  切换目录 ==>  执行命令 node name.js
+PS: 
+  nodeJS下不能使用 DOM 与 BOM
+  nodeJS下不能使用 全局对象 global(window)
+
+
+
+
+Buffer(缓冲器)
+介绍: Buffer是一个和数组类似的对象, 不同呃呃是Buffer是专门用来保存而精致数据的
+特点
+  大小固定:  在创建的时候就确定了,却无法调整
+  性能较好:  直接对计算机的内存进行操作
+  每个元素大小为 1 字节( byte)
+操作-创建Buffer  
+  直接创建 Buffer.alloc
+  不安全创建 Buffer.allocUnsafe
+  通过数组和字符创建Buffer.from
+操作-Buffer读取和写入
+可以直接通过[]的方式对数据进行处理, 可以使用toString的方法将Buffer输出为字符串
+  []对 buffer进行读取和设置
+  toString 将 buffer转换为字符串
+操作-关于溢出  舍弃高于8位的内容
+  const buffer3 = 'iloveyou'
+  buffer3[0] = 300;  // 一个byte最高2^8 = 256
+  console.log(buffer3.toString());  //  ,loveyou
+  console.log(",".charCodeAt());  // 44
+  console.log(String.fromCharCode(300 - 256));  //,
+关于中文:  一个 UTF-8 中文字符占据三个字节
+
+
+
+
+
+
+文件系统fs
+fs全称为 file system, 时NodeJS 中国你的内置模块, 可以对计算机中的文件进行增删查改等操作
+文件写入 - 简单写入
+ fs.writeFile(file.data,[.options],callback);
+ fs.writeFileSync(file,data);
+ option选项
+   encoding 默认值: 'utf8'
+   mode 默认值: 0o666
+   flag 默认值: 'w'
+文件写入 - 流式写入
+  fs.createWriteStream(path[.options])
+    path
+    options
+      flag 默认值: 'w'
+      encoding 默认值: 'utf8'
+      mode 默认值: 0o666
+    时间监听open close eg: ws.on('open',function(){});
+文件读取 - 简单读取
+
+文件读取 - 流式读取
+
+
+
+
+
+
+
