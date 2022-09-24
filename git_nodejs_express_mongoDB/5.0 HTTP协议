@@ -1,1 +1,75 @@
+HTTP (hypertext transport protocol) 协议
+==>超文本传输协议, 是一种基础TCP/IP 的应用层通信协议, 这个协议详细规定了浏览器和万维网雾浮起之间互相通信的规则
+协议主要规定了两个方面的内容
+  客户端 向 服务器 发送数据, 称之为请求报文(Request Headers)
+  服务器 向 客户端 返回数据, 称之为响应报文(Response Headers)
+  
+请求报文(Request Headers)
+  请求行
+  请求头  格式  [请求头的名字: 请求头的值]
+  请求空行
+  请求体
+  
+GET https://www.baidu.com/s?tn=80035161_1_dg#logo HTTP/1.1  //请求行
+Accept: text/html, application/xhtml+xml, image/jxr, */*      //请求头    表明客户所能接受的数据类型
+Accept-Language: zh-Hans-CN, zh-Hans; q=0.5                               表明客户支持的语言类型   q为喜好值
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; Touch; rv: 11.0) like Gecko      客户端标志(每个浏览器的 User-Agent 不一样)
+Accept-Encoding: gzip, deflate        表明客户端支持的压缩方式
+Host: www.baidu.com                   客户端主机名
+Connection: keep-Alive                连接配置 Keep-Alive 保持连接  close断开
+Cookie:: BD_UPN=11126342342341: BD_HOME=1;  Cookie(发送请求唯一标志,服务器能够识别是谁)
 
+
+
+请求行
+GET               请求方式  常见的HTTP请求方式: GET 和POST (PUT DELETE PATCH OPTION)
+/webDemo/Hellow   请求的URL
+HTTP/1.1          HTTP协议的版本
+
+URL讲解
+https://www.baidu.com/s?tn=80035161_1_dg#logo
+https/http/mongodb/ftp/ssh      协议
+www.baidu.com                   域名(IP地址)
+/                               路径
+tn=80035161_1_dg                查询字符串(query string)
+#logo                           锚点
+
+请求头
+
+GET请求的请求体是空的, 但是POST请求的请求体一般不为空
+
+
+
+响应报文(Response Headers)
+  响应行
+  响应头
+  响应空行
+  响应体
+  
+相应行
+HTTP/1.1 200 OK
+HTTP/1.1      协议的版本
+200           响应的状态码
+OK            响应的状态字符串
+
+常见的响应状态码
+200  成功
+302  跳转
+404  找不到资源
+403  禁止的
+500  服务器内部错误
+100-199  信息响应
+200-299  成功响应
+300-399  重定向
+400-499  客户端错误
+500-599  服务器错误
+
+
+响应头  格式与请求头格式一致  [名字: 值]
+Cache-Control  缓存空指  private只允许客户端缓存数据 public
+Connection  连接设置
+Content-Type  [响应体]内容的类型
+  test/html  表明响应体为 HTML 内容
+  test/css  表明响应体为 CSS 内容
+  application/javascript  表明响应体为 JavaScript
+  image/png  表明响应体为 png 图片
