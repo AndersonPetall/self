@@ -73,3 +73,14 @@ Content-Type  [响应体]内容的类型
   test/css  表明响应体为 CSS 内容
   application/javascript  表明响应体为 JavaScript
   image/png  表明响应体为 png 图片
+  Date  响应事件
+  Expire  服务器事件
+  Server  服务器信息
+  Set-Cookie  设置cookie
+  Strict-Transport-Security  响应头与Upgrade-Insecure-Request结合使用
+  Traceid  跟踪id
+  X-Ua-Compatible IE=Edge, chrome=1 讫那个之IE浏览器使用最新的解析器解析网页,使用chrome的内容解析网页
+  
+响应体  为内容,形式比较灵活
+
+
