@@ -58,34 +58,43 @@ fs全称为 file system, 时NodeJS 中国你的内置模块, 可以对计算机�
    mode 默认值: 0o666
    flag 默认值: 'w'
 文件写入 - 流式写入
-  fs.createWriteStream(path[.options])
+  const rs = fs.createWriteStream(path[.options])
+  rs.write('content');
     path
     options
       flag 默认值: 'w'
       encoding 默认值: 'utf8'
       mode 默认值: 0o666
     时间监听open close eg: ws.on('open',function(){});
-
+//文件写入小结
 flag标记
- 'r'  read  只读
- 'w' write  只写(覆盖)
- 'a'  append  追加
+  'r'  read  只读
+  'w' write  只写(覆盖)
+  'a'  append  追加
 mode默认值
- 0o代表 八进制
- 666  Linux下文件权限  所有者权限 所属组的权限 其他人权限 (4可读2可写1可执行)
+  0o代表 八进制
+  666  Linux下文件权限  所有者权限 所属组的权限 其他人权限 (4可读2可写1可执行)
 同步API和异步API fs.writeFileSync/fs.writeFile
-同步:  代码的编写顺序与执行顺序一致(等待响应,响应之后向下执行)
-异步:  代码执行顺序和代码的编写顺序不统一(不等待响应,直接向下执行)
-
+  同步:  代码的编写顺序与执行顺序一致(等待响应,响应之后向下执行)
+  异步:  代码执行顺序和代码的编写顺序不统一(不等待响应,直接向下执行)
+writeFile与createWriteStream使用场景
+ writeFile:  简单的写入,次数较少
+ createWriteFile:  批量的写入
  
  
 文件读取 - 简单读取
-
+ fs.readFile(file.data,callback);
+ fs.readFileSync(file);
 文件读取 - 流式读取
+ const rs = fs.createReadStream(file);
+ rs.on("data", (chunk) => {
+  console.log(chunk.toString());
+ });
 
-
-
-
-
-
+//文件读取小结
+读取文件的常见错误
+  未能找到目标文件:ENOENT: no such file or directory
+readFile与createReadStream使用场景
+ readFile:  简单的读取,次数较少
+ createReadStream:  批量的读取
 
