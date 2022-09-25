@@ -1,13 +1,46 @@
 三, 子查询
 1.0 where子句中的子查询
 1.1 单行子查询
+  返回一条记录
+  单行操作符  =/>/>=/</<=/<>(not equal to)
+  需求:查询20212年1月用水量大于平均值的台账记录
+  select * from T_account where year = '2012' and month = '01' and usenum > 
+  (select avg(usenum) from T_account where year = '2012' and month = '01');
 1.2 多行子查询
-1.3 in运算符
-2.0 from子句中的子查询
-3.0 select子句中的子查询
+  发怒hi多条记录
+  多行操作符  
+    IN    等于列表中的任何一个
+    ANY   和子查询返回的任意一个值进行比较
+    ALL   和子查询返回的所有值进行比较
+1.3 in运算符 (not in)
+  需求: 查询地址编号为1,3,4 的业主记录
+  select * from T_Owners where addressid in (1,3,4);
+  需求: 查询地址含有"花园"的业主信息
+  select * from T_Owners where addressid in (select id from t_address where name like "%花园%')
+  需求: 查询地址不含有"花园"的业主信息
+  select * from T_Owners where addressid not in (select id from t_address where name like '%花园%')
+2.0 from子句中的子查询(多行子查询)
+  需求: 查询显示业主编号, 业主名称,业主类型名称, 条件为业主类型为'居民'
+  select * from 
+  (select o.id 业主编号, o.name 业主名称, ot.name 业主类型 from T_owners o, T_ownertype ot where o.ownertypeid = ot.id)
+  where 业主类型 = '居民';
+3.0 select子句中的子查询(单行查询)
+  需求: 列出业主信息, 包括ID, 名称 和 所著地址
+  select id, name, (select name from t_address where id = addressid) addressname 
+  from T_owners;
+  需求: 列出业主信息, 包括ID, 名称, 所属地址, 所属区域
+  select id, name, (sele name from t-address where id = addressid) addressname,
+  (select (select name from t_area where id = areaid) from t_address where id = addressesid) adrename
+  from t_owner;
 四, 分页查询
 1.0 简单分页
+  需求:分页查询台账表T_account, 每页10条记录  =>  伪列 Rownum(查询时候只能为< / <=) + 嵌套查询
+  0-10条   select rownum, t.* from T_account t where rownum <= 10;
+  10-20条  selec * from (select rownum r, t.* from T_account t where rownum <= 20) where r > 10;
 2.0 基于排序的分页
+  需求: 分页查询台账表T_account, 每页10条记录,按照使用字数降序
+  select * from 
+  (select rownum r, t.* from T_account t where rownum <= 20 order by usenum desc) where r > 10
 五, 单行函数
 1.0 字符函数
 2.0 数值函数
