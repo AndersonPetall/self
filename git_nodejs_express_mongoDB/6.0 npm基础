@@ -1,0 +1,29 @@
+NPM
+全称:  node Package Manager, node 的包管理器, 也是一个应用程序
+包是什么
+Node JS 的包基本遵顼 CommonJS 规范, 将一组相关的木块组合在一起, 形成一个完整的工具
+作用
+通过NPM 可以对Node 的工具包进行搜索, 下载, 安装, 删除, 上传. 借助别人写好的包, 开发更加的方便
+
+常用命令
+  查看npm的版本  npm -v
+  初始化         npm init / npm init --yes
+  搜索包         npm search jquery / npm s jquery
+  下载包         npm i 包名 / npm install 包名
+  下载并保存信息  npm install 包名 --save / npm install jQuery -S  (dependencies 属性)生态依赖   将安装的包的信息, 记录在 package.json中的dependencies属性中
+                 npm install babel --save-dev / npm install babel -D  (devDependencies 属性)开发依赖   将安装的包的信息, 记录在 package.json中的devDependencies属性中
+  全局安装        nmp install less -g / npm install nodemon -g      全局暗转一般用于安装全局工具(安装在特殊位置, 但是在任何位置都可以执行)
+  安装依赖        npm i / npm install / npm i --production(只安装dependencies中的依赖)    更具package.json中的依赖声明,安装工具包
+  移除包          npm remove jquery
+  清除缓存        npm cache clean
+package.json 是包的配置文件
+开发依赖于生态依赖
+  工具只在开发阶段使用,称之为开发依赖; 最终的产品也存在称之为生态依赖
+环境变量Path的配置
+  此电脑->右键属性->高级系统设置->胡静变量->双击Path新建->某程序的安装路劲添加至input框中->确定
+  
+  
+团队使用流程
+  从仓库中拉取仓库代码
+  运行npm install 安装相关依赖
+  运行项目, 继续开发
