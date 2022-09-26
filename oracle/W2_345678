@@ -7,7 +7,7 @@
   select * from T_account where year = '2012' and month = '01' and usenum > 
   (select avg(usenum) from T_account where year = '2012' and month = '01');
 1.2 多行子查询
-  发怒hi多条记录
+  返回多条记录
   多行操作符  
     IN    等于列表中的任何一个
     ANY   和子查询返回的任意一个值进行比较
