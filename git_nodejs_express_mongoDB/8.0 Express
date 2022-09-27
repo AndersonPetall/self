@@ -1,0 +1,21 @@
+Express
+  1.0 Express介绍
+  2.0 路由(Route)
+  3.0 中间件
+  4.0 Router路由器
+
+
+1.0  Express介绍
+Express时一个基于Node.js 平台的极简,灵活的web 应用开发框架,用于创建各种 Web 和移动设备应用 ==>  封装的 npm 包
+简单的来讲 Express 就是运行在 node 中的用来搭建服务器的模块
+1.1.1  下载 npm i express --save
+1.1.2  第一个服务器
+  引入express  
+    const repress = require('express');
+  创建应用对象
+    const app = express();
+  路由的设置
+    app.get('/',(request, response)=>{response.end('Hello Express');});
+  监听端口
+    app.listen(80, ()=>{consoel.log('服务已经启动, 端口80监听中');});
+  
