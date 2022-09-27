@@ -56,13 +56,24 @@ EG
     
 2.4 Request对象
 Request对象是什么? 
-  Request对象是 Route 回调函数中的对一个参数, 代表了用户发送给服务器的请求信息
+  Request对象是 Route 回调函数中的第一个参数, 代表了用户发送给服务器的请求信息
   通过Request 对象可以读取用户发送的请求, 包括 URL地址中查询字符串的参数, 和POST 请求的请求体中的参数
 Request对象的属性和方法
   request.query     获取get 请求查询字符串的参数, 拿到的是一个对象
   request.params    获取get 请求参数Route(路由)的参数, 拿到的是一个对象
   request.body      获取post 请求体, 拿到的是一个对象(要借助一个中间件)
-  request.get(xxxx) 获取请求头中指定key 对应的 value
+  request.get(xxxx) 获取请求头中指定key 对应的 value   ==>  request.headers.key  = request.get('key')  获取请求头key的value信息
+EG:  params的值
+app.get("/news/:id.html", (request, response) => {
+  let id = request.params.id;
+  response.send(`id 为 ${id} 的新闻 `);});
+PS 本地的IP地址　host文件
+loca:  C:\Windows\System32\drivers\etc
+将域名 qq.com  ==host==>  获取IP为 127.0.0.1
+
 
 2.5 Response对象
-    
+Response对象是什么? 
+  Response对象是 Route 回调函数中的第二个参数, 代表了服务器发送给用户的响应信息
+  通过Response 对象可以设置响应报文中的各个内容,包括响应头和响应体
+  
