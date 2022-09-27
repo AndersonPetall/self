@@ -5,8 +5,29 @@
   
 模块的创建
   1.0 创建JS 文件, 编写代码
-    EG: function test(){ console.log('test');}
+    EG: function add(a,b){ return a+b;} function div(a,b){return a/b;);
   2.0 在文件中对外暴露
-    EG: module.exports = test;
+    way1: module.exports = {add:add, div:div};  // module.exports = {add, div};
+    way2: export.add = add; exports.div = div;  module.export{add,div}
+    不能使用exports = xx(EG:100) 的方式去暴露  exports = module.exports = {a:a, b:b}
+  3.0 引入模块
+    const {add,div} = require('./filename.js');
+  4.0 使用模块
+    console.log(add(2,3)); console.log(div(2,3));
+  
 注意:
   module.exports可以暴露任意数据
+
+文件引入注意事项
+  如果没有后缀,会按照一下的后缀加载文件  
+    .js  fs模块同步读取文件编译执行
+    .json  fs模块同步读取文件, 用 JSON.parse() 解析返回结果
+    .node  c/C++编写的拓展文件, 通过 dlopen() 方法编译
+  其他拓展名, 会以 .js文件载入
+  如果是文件夹会默认加载该文件夹下 package.json 文件中的 main属性对应的文件, 如果main 属性对应的文件不存在, 则自动找 index.js index.json
+  如果内置模块或者是 npm 安装的模块, 直接使用包名字即可
+  npm引入包时, 如果当前文件下的 node_modules 没有, 则会自动向上寻找
+  require模块引入步骤 --  文件导入的时候, 目标文件中的代码时执行的
+    1 获取目标文件中的'内容'
+    2 执行目标文件中的 js 代码
+    3 返回module.exports 中的值
