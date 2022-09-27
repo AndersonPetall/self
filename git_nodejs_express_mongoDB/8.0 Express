@@ -30,3 +30,25 @@ Route(路由) 由一个 URL, HTTP 请求(GET,POST等) 和若干个句柄组成�
     部分1.0 HTTP请求的方法(GET或者POST)
     部分2.0 URL 路径
     部分3.0 回调函数
+EG 
+创建路由规则 GET方法
+ 当浏览器向服务器发送http请求的时候, 若方法为 GET, URL路径为 /, 则回调函数为 当前的 (request,response)的回调函数
+  app.get("/", (request, response) => {
+    response.end("Hello Express-express route - self try01"); });
+ 当浏览器向服务器发送http请求的时候, 若方法为 GET, URL路径为 /admin, 则回调函数为 当前的 (request,response)的回调函数
+  app.get("/admin", (request, response) => {
+    response.send("Hello Express-backend后台 - self try01"); });
+创建路由规则 POST方法
+  form.html 文件中 <form action='/login' method='post'></form>
+ 读取form.html 文件内容, 将 file协议 转换为 HTTP协议 (若不转换, 则地址为 ./login 而不是 127.0.0.1/login
+  app.get("/login", (request, response) => {
+    const body = fs.readFileSync("./form.html");
+    response.end(body);});
+ 当浏览器向服务器发送http请求的时候, 若方法为 post, URL路径为 /login, 则回调函数为 当前的 (request,response)的回调函数
+  app.post("/login", (request, response) => {
+    response.send("Hello Express-登录 - self try01");});
+创建路由规则 ALL方法  ==>  无论是什么方式发送请求(GET, POST...), 都能够进行正常的响应
+  form.html 文件中 <form action='/test' method='post'></form>
+ 可通过 /test直接访问(GET), 也可通过login跳转访问(POST)
+  app.all("/test", (request, response) => {
+    response.send("测试!!!");});
