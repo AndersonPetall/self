@@ -129,3 +129,29 @@ server.listen(80, ()=>{
 });
   
 
+
+响应状态设置
+require("http").createServer((request, response) => {
+  //行
+  //状态码
+  response.statusCode = 404;
+  //状态字符串
+  response.statusMessage = "TEST";
+  //头
+  response.setHeader("Content-type", "text/html;charset=utf-8");
+  //自定义头信息
+  response.setHeader("abc", "1000");
+  //体
+  response.write("111111");
+  response.write("111111");
+  response.write("111111");
+  response.write("111111");
+  response.write("111111");
+
+  response.end("OK");
+}).listen(80);
+
+
+PS  write之后不能是send, 应为end
+response.send 里面存在响应字符集设置, 相当于里面设置了响应头
+在 响应体设置之后, 不能设置响应头
