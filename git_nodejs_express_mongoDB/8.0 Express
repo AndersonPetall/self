@@ -30,6 +30,7 @@ Route(路由) 由一个 URL, HTTP 请求(GET,POST等) 和若干个句柄组成�
     部分1.0 HTTP请求的方法(GET或者POST)
     部分2.0 URL 路径
     部分3.0 回调函数
+2.3 Route的实例与运行
 EG 
 创建路由规则 GET方法
  当浏览器向服务器发送http请求的时候, 若方法为 GET, URL路径为 /, 则回调函数为 当前的 (request,response)的回调函数
@@ -52,3 +53,16 @@ EG
  可通过 /test直接访问(GET), 也可通过login跳转访问(POST)
   app.all("/test", (request, response) => {
     response.send("测试!!!");});
+    
+2.4 Request对象
+Request对象是什么? 
+  Request对象是 Route 回调函数中的对一个参数, 代表了用户发送给服务器的请求信息
+  通过Request 对象可以读取用户发送的请求, 包括 URL地址中查询字符串的参数, 和POST 请求的请求体中的参数
+Request对象的属性和方法
+  request.query     获取get 请求查询字符串的参数, 拿到的是一个对象
+  request.params    获取get 请求参数Route(路由)的参数, 拿到的是一个对象
+  request.body      获取post 请求体, 拿到的是一个对象(要借助一个中间件)
+  request.get(xxxx) 获取请求头中指定key 对应的 value
+
+2.5 Response对象
+    
