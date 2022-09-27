@@ -76,7 +76,31 @@ loca:  C:\Windows\System32\drivers\etc
 Response对象是什么? 
   Response对象是 Route 回调函数中的第二个参数, 代表了服务器发送给用户的响应信息
   通过Response 对象可以设置响应报文中的各个内容,包括响应头和响应体
-  
+Response对象的属性和方法
+  Response.send()               给浏览器做出一个响应(自动追加响应头)
+  Response.end()                给浏览器做出一个响应(不会自动追加响应头)
+  Response.download()           告诉浏览器下载一个文件(可以为相对路径)
+  Response.sendFile()           给浏览器发送一个文件  绝对路径 / __dirname + '相对路径'
+  Response.redirect()           重新定向到一个新的地址(URL)  ()内为URL
+  Response.set(header,value)    自定义响应头内容
+  res.status(code)              设置响应状态码
 PS  write之后不能是send, 应为end
 response.send 里面存在响应字符集设置, 相当于里面设置了响应头
 在 响应体设置之后, 不能设置响应头
+EG  设置响应
+app.get("/res", (request, response) => {
+  //响应状态码
+  response.stateCode = 404;
+  //响应状态字符串
+  response.statusMessage = "test";
+  //响应头
+  response.setHeader("Week", "San");
+  response.setHeader("Content-type", "text/html;charset=UTF-8");
+  //响应体
+  response.write("Hello - what fuck\n");
+  //设置响应
+  //response.send("段及那重铸之日, 起始归来之时");  //不能设置send
+  response.end("响应end结束");});
+EG  download
+app.get("/res", (request, response) => {//下载响应
+  response.download("./package.json");});
