@@ -104,3 +104,54 @@ app.get("/res", (request, response) => {
 EG  download
 app.get("/res", (request, response) => {//下载响应
   response.download("./package.json");});
+
+
+
+网站根目录介绍  express.static
+网站根目录放置不经常变动的内容
+  html,css,js,图片,视频,音频 ...
+对于内容要频繁变动的资源, 设置 Route(路由)规则响应页面内容
+EG: 网址的对应响应, 根目录 vs Route 规则
+app.use(express.static(__driname + '/public'));  //将当前目录下的public文件作为根目录
+//若根目录存在,则响应根目录内容, 若根目录不存在对应文件,则响应Route (路由)内容
+app.get("/home.html", (request, response) => {   
+  response.send("<h1>what fuck--home</h1>");});
+app.get("/index.html", (request, response) => {
+  response.send("<h1>what fuck--index</h1>");});
+  
+  
+  
+  
+middleware 中间件
+middleware 就是函数, 在特定的场景下执行==>(一个中间函数,在得到一个请求对象之后,要么返回给客户端,要么传递给另一个中间函数)
+全局middleware: 每个http请求在到达服务端后, 都会执行的中间件的代码
+路由middleware: 只在某些http请求中执行, 并不是在所有请求中执行
+EG:  全局middleware
+利用middle 记录 各个url 以及对应的时间
+const date = New Date(); const fs = require('fs');
+//声明一个中间件函数
+let record = function (request, response, next) {//next 是一个函数类型值
+  const time =date.getFullYear() + ":" + date.getMonth() + ":" + date.getDate();   //获取时间
+  let path = request.url;  //获取路径
+  fs.writeFileSync("./access.log", `[${time}]\t ${path}\r\n`, { flag: "a" });    //写入文件 当前目录下的 access.log 文件
+  next();    //调用next函数
+};
+//使用中间件 (全局middleware)
+app.use(record);
+//不同的http请求
+app.get("/index", (request, response) => {response.send(`what index`);});
+app.get("/home", (request, response) => {response.send(`what home`);});
+app.get("/a", (request, response) => {response.send(`what a`);});
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
