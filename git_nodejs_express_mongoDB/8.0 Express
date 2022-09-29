@@ -122,7 +122,7 @@ EG: 网址的对应响应, 根目录 vs Route 规则
   
   
   
-middleware 中间件
+3.0  middleware 中间件
 middleware 就是函数, 在特定的场景下执行==>(一个中间函数,在得到一个请求对象之后,要么返回给客户端,要么传递给另一个中间函数)
 种类
   全局middleware: 每个http请求在到达服务端后, 都会执行的中间件的代码
@@ -188,7 +188,7 @@ EG: 请求体参数获取的中间件   接受输入的账号和密码
   
   
   
-Router 路由器  ==> 将Route 分开写
+4.0  Router 路由器  ==> 将Route 分开写
 Router是什么? Router是一个完整的中间件和路由系统, 也可以看作是一个小型的app对象
 为什么使用Router? 为了更好的分类管理 Route(路由)
 步骤
@@ -215,7 +215,12 @@ routerA.js文件
 
 
 
-
+5.0  ejs模块引擎 (Embedded JavaScript templates)
+EJS是什么 
+  EJS是一个高效的JavaScript 模板引擎. ==> ejs是一种技术, 并不是JS独有的
+  模块引擎是为了使 用户界面 与 业务数据(内容) 分离而产生的
+  简单的来讲, 使用 EJS 模板引擎就能动态渲染数据
+EJS的使用
 
 
 
