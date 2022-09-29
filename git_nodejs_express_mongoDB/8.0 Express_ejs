@@ -1,0 +1,9 @@
+5.0  ejs模块引擎 (Embedded JavaScript templates)
+EJS是什么 
+  EJS是一个高效的JavaScript 模板引擎. ==> ejs是一种技术, 并不是JS独有的
+  模块引擎是为了使 用户界面 与 业务数据(内容) 分离而产生的
+  简单的来讲, 使用 EJS 模板引擎就能动态渲染数据
+EJS的使用
+  变量拼接
+  数据遍历
+  数据判断
