@@ -1,3 +1,82 @@
 介绍
   MongoDB 是为快速开发互联网Web应用而设计的数据库系统, 
   数据库(dataBase)是按照数据结构来组织, 储存以及管理数据的仓库. 是一个应用程序
+
+
+cmd中的引用
+启动 mongod
+
+
+使用
+三个重要的概念
+  数据库(database)  数据库是一个仓库, 在仓库中可以存放集合
+  集合(collection)  集合类似于JS中的数组, 在集合中可以存放文档
+  文档(document)    文档是数据库中最小的单位, 类似于JS中的对象, 在MongoDB 中每一条数据都是一个 JS 的对象
+  
+  
+常用命令 - 数据库集合命令
+  显示所有的数据库
+    show dbs
+    show databases
+  (创建)切换到指定的数据库
+    db
+  删除当前数据库(先切换再删除)
+    use project_1
+    db.dropDatabase()
+  创建集合
+    db.createCollection('name')
+  显示当前数据库中所有集合
+    show collections
+  删除当前集合
+    db.collection.drop()  /  db.集合名.drop()
+  重命名集合
+    db.collection.renamecollection('newName')  /  db.集合名.renamecollection('原名','新名')
+PS: 操作集合时, 如果集合不存在则会自动创建集合
+
+常用命令 - 文档命令
+  插入文档
+    db.collection.insert(文档对象)  db.students.insert({name:'111', type:'loser'})
+  查询文档
+    db.collection.find(查询条件)
+    db.collection.findOne(查询条件)
+  更新文档
+    db.collection.update(查询条件, 新的文档, 配置对象)
+    //跟新一个
+    db.collection.updateOne(查询条件, 要更新的内容[,配置对象])
+    //批量更新
+    db.collection.updateMany(查询条件, 要更新的内容[,配置对象])
+    //eg
+    db.students.upadte([name:'xiaobai'},{$set:{age:18}})  xiaobai 的年纪跟新为 18
+    //配置对象
+    {
+      //可选  这个参数的意思时, 如果不存在 update 的记录, 是否插入 objNew.  true插入,false(默认)不插入
+      upsert: <boolean>,
+      //可选  默认false, 只更新找到的第一条记录, 如果为true, 则把所有符合条件的记录全部跟新
+      multi: <boolean>
+    }
+  删除集合中的文档
+    db.collection.remove(查询条件)
+
+
+
+
+
+条件控制
+运算符
+  mongodb 中没有 < > > ! 等运算符, 需要是哟纪念馆代替符号
+    >    $gt
+    <    $lt
+    >=   $gte
+    <=   $lte
+    !==  $ne
+逻辑或
+  $in  满足其中一个即可
+    db.student.find(age: {$in:[18,23,22]})
+  $or  逻辑或
+    db.student.find(age: {$or:[{age:18},{age:28}]})
+  $and  逻与
+    db.student.find(age: {$and:[{age: {$lt:20}}. {age: {$gt:10}}]})
+正则匹配
+
+
+
