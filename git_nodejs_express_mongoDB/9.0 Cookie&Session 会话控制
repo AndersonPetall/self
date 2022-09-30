@@ -26,9 +26,11 @@ COOKIE
     不带时效性的 COOKIE, 浏览期间一致有效, 关闭浏览器则会销毁此 COOKIE
 
 
-COOKIE的设置  
-  引入 -> 设置中间件 -> 设置 COOKIE
+COOKIE的操作  
+  种类: 设置 / 读取 / 清除
+  流程: 引入 -> 设置中间件 -> 设置 COOKIE
 EG
+COOKIE的设置 
   const express = require("express");  const app = express();  
   var cookieParser = require("cookie-parser");
   app.use(cookieParser());
@@ -37,10 +39,10 @@ EG
     response.cookie("email", "123@gmail.com");
     response.send("cookie setting");});
 COOKIE的读取
-app.get("/get-cookie", (request, response) => {
-  console.log('request.cookies);
-  response.send("cookie clearing");});
-COOKIE的清楚
+  app.get("/get-cookie", (request, response) => {
+    console.log('request.cookies);
+    response.send("cookie clearing");});
+COOKIE的清除
   app.get("/clear-cookie", (request, response) => {
     response.clearCookie("name");
     response.send("cookie clearing");});
@@ -60,6 +62,36 @@ COOKIE 的不足
 Session
 是什么?  (和 COOKIE 类似)
   Session 是一个对象, 储存特定用户会话所需的属性以及配置信息. 
-  Session 是保存再服务器端的数据. (保存介质, 文件,数据库,内存)
+  Session 是保存再服务器端的数据. (保存介质, 文件,数据库,内存)  
 运作流程
   我门可以在服务器中为每一次对话创建一个对象, 然后每个对象都设置一个唯一的 id, 并将该 id 以 COOKIE 的形式发送给浏览器, 然后会话中产生的数据统一保存到这
+  服务器通过响应头里面的 "set-cookie: id = xxx" 返回给浏览器
+  浏览器将传送过来的 id 保存在 cookie池子 中
+  浏览器在下次发送请求的时候, 将 id=xxx 传送给服务器
+
+
+session的操作  
+  种类: 设置 / 读取 / 清除
+  流程: 引入 -> 设置中间件 -> 设置 session
+EG
+session的设置 
+  const express = require("express");  const app = express();  
+  const session = require("express-session");
+  app.use(
+    session({
+      secret: "keyboard cat",
+      resave: false,
+      saveUninitialized: true,}));
+  app.get("/set-session", (request, response) => {
+    request.session.name = "xiabai";
+    request.session.email = "123@gmail.com";
+    response.send("login - session set");});
+session的读取
+  app.get("/get-session", (request, response) => {
+    console.log(`name of login user: ${request.session.name}`);
+    console.log(`email of login user: ${request.session.email}`);
+    response.send("self - session get");});
+session的清除
+  app.get("/destroy-session", (request, response) => {
+    request.session.destroy(function () {
+      response.send("destroy successfully!\tsafe logout!");});});
