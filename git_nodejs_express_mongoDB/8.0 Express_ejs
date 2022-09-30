@@ -83,15 +83,3 @@ ejs.js文件中
       <tr><td><%=player[i].id%></td><td><%=player[i].name%></td></tr>
     <% } %>
   </table>
-
-
-
-
-
-
-
-
-
-
-
-
