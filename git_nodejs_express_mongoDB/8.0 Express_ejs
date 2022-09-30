@@ -4,6 +4,94 @@ EJS是什么
   模块引擎是为了使 用户界面 与 业务数据(内容) 分离而产生的
   简单的来讲, 使用 EJS 模板引擎就能动态渲染数据
 EJS的使用
+  引入 
+  ==> 调用方法 
+    const ejs = require('ejs');
+    let str = ""; let data = {}; //str为要编译的字符串, data为数据对象
+EJS的用途
   变量拼接
   数据遍历
   数据判断
+
+EJS用法１ - 变量的拼接
+js文件中
+  const ejs = require("ejs");
+  const fs = require("fs");
+  let str = fs.readFileSync("./10/royal.html").toString();
+  let data = { msg: "为荣耀而生,为荣誉而死",title: "EJS title",};
+  const result = ejs.render(str, data);
+  console.log(result);
+./10/royal.html文件中
+  <title><%= title %></title>
+  <h1><%= msg %></h1>
+  
+EJS用法2 - 数据遍历    打开127.0.0.1/players 显示为列
+js文件中
+  const express = require("express"); const app = express(); const ejs = require("ejs"); const fs = require("fs");
+  app.get("/song", (require, response) => {
+    let str = fs.readFileSync("./10/musicList.html").toString();
+    let data = { songs: ["十年", "离歌", "卧槽", "UZI"] };
+    //编译
+    let result = ejs.render(str, data);
+    //响应
+    response.send(result);});
+  app.listen(80, () => {console.log("server is running.... port 80 is listening...");});
+./10/musicList.html文件中
+  <ul> 
+    <% for(let i=0; i<songs.length; i++){ %>
+      <li><%=songs[i]%></li>
+    <% } %>
+  </ul>
+
+EJS用法3 - 判断数据
+js文件中
+  const ejs = require("ejs");
+  let str = `
+    <h2>马桶TV</h2>
+    <% if(vip != 2) {%>
+      <p><%= ad %></p>
+    <% } %>
+  `;
+  let data = { vip: 2, ad: "不是每个牛奶都叫特仑苏!!!" };
+  const result = ejs.render(str, { vip: 2, ad: "不是每个牛奶都叫特仑苏!!!" });
+  console.log(result);
+
+EJS用法练习 - EJS 在 express 中使用    打开127.0.0.1/players 显示为表单
+设置express ==> 设置模板响应
+ejs.js文件中
+   const player = [
+    { id: 1, name: "xiaoming" },
+    { id: 2, name: "xiaoqi" },
+    { id: 3, name: "xiaobai" },
+    { id: 4, name: "xiaolan" },
+    { id: 5, name: "xiaoyu" },];
+  const express = require("express"); const app = express();
+  //1.0设置 express
+  //设置express 使用的引擎模板
+  app.set("view engine", "ejs");
+  //设置 ejs 使用的模板的存放位置   模板指的就是html代码存放的文件
+  app.set("views", "./10");
+  app.get("/players", (require, response) => {
+    //2.0 设置模板响应
+    //  使用ejs 编译 ./10/playerList.ejs 文件中的内容
+    response.render("playerList", { player: player });});
+  app.listen(80, () => {console.log("server is running...port 80 is listening...");});
+./10/playerList.ejs文件中
+  <table>
+    <tr><th>ID</th><th>Name</th></tr>
+    <% for(let i=0; i<player.length; ++i){ %>
+      <tr><td><%=player[i].id%></td><td><%=player[i].name%></td></tr>
+    <% } %>
+  </table>
+
+
+
+
+
+
+
+
+
+
+
+
