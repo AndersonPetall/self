@@ -1,0 +1,44 @@
+并非只有浏览器能够向 HTTP 服务发送求情
+  ios应用, Android应用
+  node 中 request
+  其他语言(爬虫)
+
+
+
+客户端发送请求 -> 服务端处理请求
+
+客户端  发送请求
+  HTTP 浏览网页
+  Android 应用
+  IOS 应用
+  游戏客户端
+
+服务端 处理请求(脚本语言处理)
+  操作系统 
+    windows
+    linux
+  Web服务器
+    Nginx
+    Apache
+    Tomcat
+    Nodejs server
+    LLS
+  脚本服务
+    JavaScript
+    PHP
+    JSP
+    Python
+    ASP
+    Go
+    Ruby
+  缓存服务
+    memcache
+    redis
+  数据库服务
+    MongoDB
+    MySQL
+    SQL server
+    sqlite
+    Oracle
+    PostgreSQL
+    
