@@ -95,3 +95,23 @@ session的清除
   app.get("/destroy-session", (request, response) => {
     request.session.destroy(function () {
       response.send("destroy successfully!\tsafe logout!");});});
+
+
+
+
+COOKIE 与 session 的区别
+  COOKIE 在不太能够的浏览器之间是不共享的, 即使在同一台电脑
+    chrome 无法获取 ie浏览器的 cookie
+    cookie 是用户非常重要的凭据
+存放位置
+  COOKIE 存在于客户端
+  session 存在于服务器端, 一个 session域对象 为一个用户浏览器服务
+安全性
+  COOKIE 以明文的方式存放于客户端, 安全性较低, 可以通过一个加密算法进行加密后存放
+  seesion 存放于服务器中, 所以安全性较好 -> 存在被截获的可能  解决方案 :https证书 (加密)
+网络传输量
+  COOKIE 会传递消息给服务器
+  session 本身存放于服务器中, 但是通过 cookie 传递id, 会有少量的传送流量
+大小:
+  COOKIE 保存的数据不能超过 4k, 很多浏览器都限制一个站点最多保存50个 cookie
+  sesseion 保存数据理论上没有限制
