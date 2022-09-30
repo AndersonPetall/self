@@ -14,11 +14,52 @@ COOKIE
     服务器就可以通过价差浏览器发回的 COOKIE 来识别出不同的浏览器
 注意
   COOKIE 虽然存在于浏览器端, 但是在电脑中不能直接查看 COOKIE 的内容  ->  防止被修改和查询信息, 服务器通过 COOKIE 识别用户, 一旦COOKIE被获取, 用户信息也可能被获取
+    查看: COOKIE 能在浏览器设置中 查询并找到
   COOKIE 是按照域名进行分类和保存的
     ==> 发送 COOKIE 的时候, 只会携带当前域名下的 COOKIE 进行请求
     163.com 和 www.163.com 不是同一个域名
       顶级域名: 163.com  顶级域名将拥有下面的所有二级域名  qq.com -> v.qq.com / music.qq.com / area.qq.com
       二级域名: www.163.com
-查看
-  COOKIE 能在浏览器设置中 查询并找到
+  set-cookie 里面的 "path=/" 是用来设置此 cookie 生效的特性,  /表示此 cookie 在当前的网站下都可用 (EG: Set-Cookie: email=123%40gmail.com; Path=/)
+  COOKIE 的时效性
+    带有时效性的 COOKIE, 时间一到便被销毁, 关闭浏览器不会销毁此 COOKIE  ==>  用户每过段时间便自动退出, 此时需要再次登录
+    不带时效性的 COOKIE, 浏览期间一致有效, 关闭浏览器则会销毁此 COOKIE
 
+
+COOKIE的设置  
+  引入 -> 设置中间件 -> 设置 COOKIE
+EG
+  const express = require("express");  const app = express();  
+  var cookieParser = require("cookie-parser");
+  app.use(cookieParser());
+  app.get("/set-cookie", (request, response) => {
+    response.cookie("name", "xiaohigh", { maxAge: 3 * 60 * 1000 }); //设置带有时效性的cookie  单位: 毫秒  时间一到,当前cookie失效(消失)
+    response.cookie("email", "123@gmail.com");
+    response.send("cookie setting");});
+COOKIE的读取
+app.get("/get-cookie", (request, response) => {
+  console.log('request.cookies);
+  response.send("cookie clearing");});
+COOKIE的清楚
+  app.get("/clear-cookie", (request, response) => {
+    response.clearCookie("name");
+    response.send("cookie clearing");});
+
+COOKIE 的不足
+  储存限制
+    每个浏览器对 COOKIE 的数量和大小都有不同的限制, 这样就导致我们不能在 COOKIE 中保存过多的信息. 一般数量不超过50, 大小不超过4ks
+  容量限制
+    COOKIE 是由服务器发送给浏览器, 再由浏览器将 COOKIE 发回, 如果 COOKIE 较大会导致发送速度非常慢, 降低用户体验
+  安全性也比较差
+
+
+
+
+
+
+Session
+是什么?  (和 COOKIE 类似)
+  Session 是一个对象, 储存特定用户会话所需的属性以及配置信息. 
+  Session 是保存再服务器端的数据. (保存介质, 文件,数据库,内存)
+运作流程
+  我门可以在服务器中为每一次对话创建一个对象, 然后每个对象都设置一个唯一的 id, 并将该 id 以 COOKIE 的形式发送给浏览器, 然后会话中产生的数据统一保存到这
