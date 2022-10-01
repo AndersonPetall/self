@@ -1,0 +1,13 @@
+Node.JS  pro
+  single-threaded, based on event dirven, non-blocking I/O model
+  perfect for building fast and scalable data-intensive apps
+  JavaScript across the entire stack
+  NPM: hugge library of open-source packages
+  active developer community
+what Node.JS could do
+  API with database behind it(preferably NoSQL)
+  Data streaming( Youtube)
+  Real-time chat application
+  Server-side web application
+what Node.JS could not do
+  Applications with heavy server-side processing (CPU-intensive)
