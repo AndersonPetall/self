@@ -47,21 +47,21 @@ Maven项目构建命令
 
 使用插件创建工程
   创建工程
-  mvn archetype: generate
-  -DgroupId={ project-packaging}-DartifactId={ project-name }
-  -DarchetypeArtifactId=maven-archetype-quickstart
-  -DinteractiveMode=false
+    mvn archetype: generate
+    -DgroupId={ project-packaging}-DartifactId={ project-name }
+    -DarchetypeArtifactId=maven-archetype-quickstart
+    -DinteractiveMode=false
   创建Java工程
-  mvn archetype:generate
-  “-DgroupId=com.ithema”
-  “-DartifactId=java-project”
-  “-DarchetypeArtifactId=maven-archetype-quickstart”
-  “-DarchetypeVersion=1.4”
-  “-DinteractiveMode=false”
+    mvn archetype:generate
+    “-DgroupId=com.ithema”
+    “-DartifactId=java-project”
+    “-DarchetypeArtifactId=maven-archetype-quickstart”
+    “-DarchetypeVersion=1.4”
+    “-DinteractiveMode=false”
   创建Web工程
-  mvn archetype:generate
-  “-DgroupId=com.ithema”
-  “-DartifactId=web-project”
-  “-DarchetypeArtifactId=maven-archetype-webapp”
-  “-Dversion=0.0.1-snapshot”
-  “-DinteractiveMode=false”
+    mvn archetype:generate
+    “-DgroupId=com.ithema”
+    “-DartifactId=web-project”
+    “-DarchetypeArtifactId=maven-archetype-webapp”
+    “-Dversion=0.0.1-snapshot”
+    “-DinteractiveMode=false”
