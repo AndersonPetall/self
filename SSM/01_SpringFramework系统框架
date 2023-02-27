@@ -1,0 +1,8 @@
+系统框架
+  Data Access/Integration  (Data Access:数据访问, Data Integration:数据集成)
+    JDBC / ORM / OXM / JMS / Transactions
+  Web  (Web开发)
+    WebSocket / Servlet / Web / Portlet
+  AOP + Aspects  (AOP:面向切面编程, Aspects:AOP思想实现)
+  Core Container  (核心容器)
+    Beans / Core / Context SpEL
