@@ -1,0 +1,42 @@
+Maven是什么 & Maven的作用
+  Maven的本质是一个项目管理工具, 将木箱开发和管理过程抽象成一个项目对象模型(POM Project-Object-Model)
+  依赖管理: 方便快捷的管理项目依赖的资源(jar包), 避免资源间的版本冲突问题
+  统一开发结构: 提供标准的,统一的项目结构
+  
+
+Maven的基础概念
+  仓库:用于储存资源,包含各种jar包
+    本地  -->  私服  -->  中央
+
+  仓库分类
+    本地仓库: 自己电脑上储存资源的仓库,连接远程仓库获取资源
+    远程仓库: 非本机电脑上的仓库,为本地仓库提供资源
+      中央仓库: Maven团队维护, 储存所有的寺院的仓库
+      私服: 部门/公司方位内存储资源的仓库, 从中央仓库获取资源
+  私服作用
+    保存具有版权的资源, 包含购买或者自主研发的jar(中央仓库中的jar都是开源的,不能储存具有版权的资源)
+    一定范围内共享资源,仅对内开放,不对外共享
+  
+  
+  坐标(coordinates): Maven中左边用于描述仓库中资源的位置
+  坐标查询: https://mvnrepository.com/
+  Maven坐标的组成
+    groupId: 定义当前的Maven项目隶属组成名称(通常是域名反写,例如:org.mybatis)
+    artifactId: 定义当前Maven项目名称(通常是模块名称,例如CRM,SMS)
+    version: 定义当前项目版本号
+    packaging: 定义该项目的打包方式
+    
+    
+本地仓库配置
+  位置: conf/ 中setting.xml文件中
+  默认位置: <localRepository>${user.home}/.m2/repository</localRepository>
+  自定义位置: <localRepository>D:\self\Maven\selftest</localRepository>
+  
+
+Maven项目构建命令
+  Maven构建命令实用mvn开头, 后面添加功能参数,可以一次执行多个命令, 使用空格分隔
+    mvn compile   #编译
+    mvn clean     #清理
+    mvn test      #测试
+    mvn package   #打包
+    mvn install   #安装到本地仓库 (pom文件决定位置)
