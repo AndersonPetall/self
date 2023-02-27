@@ -1,3 +1,5 @@
+https://betheme.net/yidongkaifa/16326.html?action=onClick
+
 Maven是什么 & Maven的作用
   Maven的本质是一个项目管理工具, 将木箱开发和管理过程抽象成一个项目对象模型(POM Project-Object-Model)
   依赖管理: 方便快捷的管理项目依赖的资源(jar包), 避免资源间的版本冲突问题
@@ -40,3 +42,26 @@ Maven项目构建命令
     mvn test      #测试
     mvn package   #打包
     mvn install   #安装到本地仓库 (pom文件决定位置)
+
+
+
+使用插件创建工程
+  创建工程
+  mvn archetype: generate
+  -DgroupId={ project-packaging}-DartifactId={ project-name }
+  -DarchetypeArtifactId=maven-archetype-quickstart
+  -DinteractiveMode=false
+  创建Java工程
+  mvn archetype:generate
+  “-DgroupId=com.ithema”
+  “-DartifactId=java-project”
+  “-DarchetypeArtifactId=maven-archetype-quickstart”
+  “-DarchetypeVersion=1.4”
+  “-DinteractiveMode=false”
+  创建Web工程
+  mvn archetype:generate
+  “-DgroupId=com.ithema”
+  “-DartifactId=web-project”
+  “-DarchetypeArtifactId=maven-archetype-webapp”
+  “-Dversion=0.0.1-snapshot”
+  “-DinteractiveMode=false”
