@@ -6,3 +6,17 @@
   AOP + Aspects  (AOP:面向切面编程, Aspects:AOP思想实现)
   Core Container  (核心容器)
     Beans / Core / Context SpEL
+  Test (Test:单元测试与集成测试)
+  
+第一部分: 核心容器
+  核心概念(IoC/DI)
+  容器基本操作
+第二部分: 整合
+  整合数据层技术MyBatis
+第三部分: AOP
+  核心概念
+  AOP基础操作
+  AOP实用开发
+第四部分: 事务
+  事务实用开发
+
