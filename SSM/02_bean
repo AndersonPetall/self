@@ -1,0 +1,31 @@
+bean基础配置
+  名称: bean
+  类型: 标签
+  所属: beans标签
+  功能: <beans>  <bean></bean>  <bean></bean>     </beans>
+  属性列表:
+    id: bean的id, 使用容器可以通过id值获取对应的bean,在一个容器中id值唯一
+    class: bean的类型, 即配置的bean 的全路劲类名
+    name: bean的别名, 可有多个需用空格分隔
+bean的作用范围
+  名称: scope
+  类型: 属性
+  所属: bean标签
+  功能: singleton单例(默认) / prototype非单例
+  eg: <bean id="bookService" name="service service2" class="com.itheima.service.impl.BookServiceImpl" scope="prototype"/>
+适合交给容器进行管理的bean
+  表现层对象
+  业务层对象
+  数据层对象
+  工具对象
+不适合交给容器进行管理的bean
+  封装实体的域对象
+  
+bean实例化
+  //private构造函数也能够创立  (暴力映射)
+  提供可访问的构造方法
+    public class BookDaoImpl implements BookDao{
+      public BookDaoImpl(){}  //如果没有无参构造方法, 将抛出异常 BeanCreationException
+      public void save(){System.out.println("book dao serve...");}
+    }
+  配置 <bean id="bookDao" class=""/>
