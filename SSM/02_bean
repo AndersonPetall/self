@@ -21,11 +21,46 @@ bean的作用范围
 不适合交给容器进行管理的bean
   封装实体的域对象
   
-bean实例化
+bean实例化: 构造方法, 静态工厂和实例工厂
+1.0 构造方法
   //private构造函数也能够创立  (暴力映射)
   提供可访问的构造方法
+    public interface BookDao {public void save();}
     public class BookDaoImpl implements BookDao{
       public BookDaoImpl(){}  //如果没有无参构造方法, 将抛出异常 BeanCreationException
       public void save(){System.out.println("book dao serve...");}
     }
-  配置 <bean id="bookDao" class=""/>
+  配置 <bean id="bookDao" class="com.itheima.dao.impl.BookDaoImpl"/>
+---------------------
+2.0 静态工厂  
+    public interface OrderDao {public void save();}
+    public class BookDaoImpl implements BookDao{
+      public BookDaoImpl(){}  //如果没有无参构造方法, 将抛出异常 BeanCreationException
+      public void save(){System.out.println("book dao serve...");}
+    }
+    //静态工厂
+    public class OrderDaoFactory {
+      public OrderDaoFactory(){}
+      public static OrderDao getOrderDao(){
+        System.out.println("factory order dao setup...");
+        return (OrderDao)new OrderDaoImpl();}
+    }
+    配置 <bean id="orderDao" class="com.itheima.factory.OrderDaoFactory" factory-method="getOrderDao"/>
+---------------------
+3.0 实例工厂
+    public interface UserDao {public void save();}
+    public class UserDaoImpl implements UserDao{
+      public UserDaoImpl(){}
+      public void save(){System.out.println("user dao save ... useDaoImpl  ");}
+    }
+    //实例化工厂
+    public class UserDaoFactory {
+      public UserDaoFactory(){}
+      public UserDao getUserDao()throws Exception{
+        System.out.println("factory setup.... userDaoFactory");
+        return (UserDao) new UserDaoImpl();}
+    }
+    配置
+      <bean id="userFactory" class="com.itheima.factory.UserDaoFactory"/>
+      <bean id="userDao" factory-method="getUserDao" factory-bean="userFactory"/>
+    
