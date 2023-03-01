@@ -63,4 +63,30 @@ bean实例化: 构造方法, 静态工厂和实例工厂
     配置
       <bean id="userFactory" class="com.itheima.factory.UserDaoFactory"/>
       <bean id="userDao" factory-method="getUserDao" factory-bean="userFactory"/>
+---------------------
+4.0 FactoryBean实例化(3.0的升级版)
+    public interface UserDao {public void save();}
+    public class UserDaoImpl implements UserDao{
+      public UserDaoImpl(){}
+      public void save(){System.out.println("user dao save ... useDaoImpl  ");}
+    }
+    //实例化工厂
+    public class UserDaoFactoryBean implements FactoryBean<UserDao>{
+      public UserDao getObject() throws Exception{//代替原始实例工厂中创建对象的方法
+        System.out.println("userDaoFactoryBean setup .... ");
+        return (UserDao)new UserDaoImpl();}
+      public Class<?> getObjectType(){//返回对象类型
+        return UserDao.class;}
+      public boolean isSingleton(){  //判断是否为单例模式(默认为单例模式)
+        return true;}
+    }
+    配置: <bean id="userDao" class="com.itheima.factory.UserDaoFactoryBean"/>
     
+    
+
+
+
+Bean生命周期
+  生命周期: 从创建到销毁的完整过程
+  bean生命周期: bean从创建到销毁的整体过程
+  bean生命周期控制: 在bean创建后到销毁前做一些事情
