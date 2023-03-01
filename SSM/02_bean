@@ -90,3 +90,35 @@ Bean生命周期
   生命周期: 从创建到销毁的完整过程
   bean生命周期: bean从创建到销毁的整体过程
   bean生命周期控制: 在bean创建后到销毁前做一些事情
+  
+方式1.0  
+  提供控制方法
+    public class BookDaoImpl implements BookDao {
+      public void save() {
+        System.out.println("book dao save ...book_dao_impl");}
+      //表示bean初始化操作
+      public void init(){ System.out.println("init....");}
+      //表示bean销毁前对应的操作
+      public void destroy(){ System.out.println("destroy....");}
+    }
+  配置: <bean id="bookDao" name="dao" class="com.itheima.dao.impl.BookDaoImpl" init-method="init" destroy-method="destroy"/>
+  运行:
+    ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext1.xml");
+    //ctx.registerShutdownHook();   //java虚拟机关闭前关闭
+    BookDao bookDao = (BookDao) ctx.getBean("bookDao");
+    bookDao.save();
+    ctx.close(); //暴力关闭
+方式2.0 
+  实现InitializingBean, DisposableBean接口
+    public class BookServiceImpl implements BookService , InitializingBean, DisposableBean {
+      private BookDao bookDao;
+      public void save() {
+        System.out.println("book service save ...bookService_impl");
+        bookDao.save();}
+    public void setBookDao(BookDao bookDao) {System.out.println("properties setting....");this.bookDao = bookDao;} //运行在afterPropertiesSet()之前
+    //非单例模式不执行
+    public void destroy() throws Exception{
+        System.out.println("service destroy....");}
+    public void afterPropertiesSet() throws Exception{System.out.println("service init....");}
+    }
+  配置: <bean id="bookService" name="service service2 bookEbi" class="com.itheima.service.impl.BookServiceImpl"> <property name="bookDao" ref="dao"/> </bean>
