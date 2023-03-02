@@ -274,4 +274,21 @@ public class BookDaoImpl implements BookDao {
             <props><prop key="country">china</prop><prop key="world">jojo</prop></props>
         </property>
     </bean>
-    
+
+
+spring容器
+创建容器的方式
+  方式1: 类路径加载配置文件
+    ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
+  方式2: 文件路径加载配置文件
+    ApplicationContext ctx = new FileSystemXmlApplicationContext("D:\\SelfProject\\S\\spring_07_auto\\src\\main\\resources\\applicationContext.xml");
+  加载多个配置文件
+    ApplicationContext ctx = new ClassPathXmlApplicationContext("file1.xml","file2.xml");
+
+获取bean的方式
+  方式一: 使用bean名称获取
+    BookService bs = (BookService) ctx.getBean("bookService");
+  方式二: 使用bean名称获取并且指定类型
+    BookService bs = ctx.getBean("bookService", BookService.class);
+  方式三: 使用bean类型获取
+    BookService bs = ctx.getBean(BookService.class);
