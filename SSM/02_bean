@@ -89,6 +89,13 @@ bean实例化: 构造方法, 静态工厂和实例工厂
 Bean生命周期
   生命周期: 从创建到销毁的完整过程
   bean生命周期: bean从创建到销毁的整体过程
+    初始化容器
+      1. 创建对象(内存分配)
+      2. 执行构造方法
+      3. 执行属性注入(set操作)
+      4. 执行bean初始化方法
+    使用bean 执行业务操作
+    关闭/销毁容器 执行bean销毁方法
   bean生命周期控制: 在bean创建后到销毁前做一些事情
   
 方式1.0  
@@ -122,3 +129,149 @@ Bean生命周期
     public void afterPropertiesSet() throws Exception{System.out.println("service init....");}
     }
   配置: <bean id="bookService" name="service service2 bookEbi" class="com.itheima.service.impl.BookServiceImpl"> <property name="bookDao" ref="dao"/> </bean>
+
+
+
+
+依赖输入方式
+  setter注入
+    简单类型
+    引用类型(基本数据类型与String)
+  构造器注入
+    简单类型
+    引用类型(基本数据类型与String)
+setter注入EG
+  public class BookDaoImpl implements BookDao {
+    public void save() {System.out.println("book dao save ...book_dao_impl");}}
+  public class UserDaoImpl implements UserDao {
+    private String s1;
+    private int num1;
+    public void save(){System.out.println("userDaoImpl save ...." + s1 + "," + num1);}
+    public void setS1(String s) {this.s1 = s;}
+    public void setNum1(int num){this.num1=num;}}
+    
+  public class BookServiceImpl implements BookService {
+    private BookDao bookDao;
+    private UserDao userDao;
+    public void save() {
+        System.out.println("book service save ...bookService_impl");
+        bookDao.save();
+        userDao.save();
+    }
+    public void setBookDao(BookDao bookDao) {System.out.println("properties setting....");this.bookDao = bookDao;}
+    public void setUserDao(UserDao userDao) { System.out.println("properties setting....");this.userDao = userDao;}
+  }
+  配置
+    <bean id="bookDao" class="com.itheima.dao.impl.BookDaoImpl"/>
+    <bean id="userDao" class="com.itheima.dao.impl.UserDaoImpl">
+        <property name="s1" value="hahaha"/>
+        <property name="num1" value="100"/>
+    </bean>
+
+    <bean id="bookService" class="com.itheima.service.impl.BookServiceImpl">
+        <property name="bookDao" ref="bookDao"/>
+        <property name="userDao" ref="userDao"/>
+    </bean>
+  
+构造器注入EG:
+  public class BookDaoImpl implements BookDao {
+    public void save() {System.out.println("book dao save ...book_dao_impl");}}
+  public class UserDaoImpl implements UserDao {
+    private String s1;
+    private int num1;
+    public void save(){System.out.println("userDaoImpl save ...." + s1 + "," + num1);}
+    public UserDaoImpl(String s1, int num1){this.s1=s1;this.num1=num1;}}
+    
+  public class BookServiceImpl implements BookService {
+    private BookDao bookDao;
+    private UserDao userDao;
+    public void save() {
+        System.out.println("book service save ...bookService_impl");
+        bookDao.save();
+        userDao.save();
+    }
+    public BookServiceImpl(BookDao bookDao,UserDao userDao) {this.bookDao = bookDao;this.userDao = userDao;}
+  }
+  配置
+    <bean id="bookDao" class="com.itheima.dao.impl.BookDaoImpl"/>
+    <bean id="userDao" class="com.itheima.dao.impl.UserDaoImpl">
+        <!--<constructor-arg name="s1" value="hahaha"/><constructor-arg name="num1" value="666"/>-->
+        <!--<constructor-arg name="java.lang.String" value="hahaha"/><constructor-arg name="int" value="666"/>-->
+        <constructor-arg index="0" value="hahaha"/><constructor-arg index="1" value="666"/>
+    </bean>
+
+    <bean id="bookService" class="com.itheima.service.impl.BookServiceImpl">
+        <constructor-arg name="bookDao" ref="bookDao"/>
+        <constructor-arg name="userDao" ref="userDao"/>
+    </bean>
+    
+依赖注入方式选择
+  1.0 强制依赖使用构造器进行, 使用setter注入有概率不进行注入导致null对象出翔
+  2.0 可选依赖使用setter注入进行,灵活性强
+  3.0 spring框架倡导使用构造器,第三方框架内部大多数采用构造器注入的形式进行数据初始化,相对严谨
+  4.0 如果有必要可以两者同时使用
+  5.0 实际开发过程依据情况分析,如果受控对象没有提供setter方法就必须使用构造器注入
+  6.0 自己开发的模块推荐使用setter注入
+  
+  
+  
+  
+依赖自动装配
+  定义: IoC容器根据bean所依赖的资源在容器中自动查找饼注入到bean中的过程称之为自动装配
+  自动装配方式:
+    按类型
+    按名称
+    按构造方式
+    不启用自动装配
+public class BookDaoImpl implements BookDao {
+    public void save() {System.out.println("book dao save ...book_dao_impl");}}
+    
+  public class BookServiceImpl implements BookService {
+    private BookDao bookDao;
+    public void setBookDao(BookDao bookDao) {System.out.println("properties setting....");this.bookDao = bookDao;}
+    public void save() {
+        System.out.println("book service save ...bookService_impl");bookDao.save();
+    }
+    public BookServiceImpl() {}
+  }
+  配置
+    <bean id="bookDao" class="com.itheima.dao.impl.BookDaoImpl"/>
+
+    <bean id="bookService" class="com.itheima.service.impl.BookServiceImpl" autowire="byType"/>
+    
+    
+   
+集合注入
+  public class BookDaoImpl implements BookDao {
+    public void save() {
+        System.out.println("book dao save ...");
+        System.out.println("遍历数组:" + Arrays.toString(this.array));
+        System.out.println("遍历List" + this.list);
+        System.out.println("遍历Set" + this.set);
+        System.out.println("遍历Map" + this.map);
+        System.out.println("遍历Properties" + this.properties);}
+    private int[] array;              public void setArray(int[] array) {this.array = array;}
+    private List<String> list;        public void setList(List<String> list) {this.list = list;}
+    private Set<String> set;          public void setSet(Set<String> set) {this.set = set;}
+    private Map<String,String> map;   public void setMap(Map<String, String> map) {this.map = map;}
+    private Properties properties;    public void setProperties(Properties properties) {this.properties = properties;}
+  }
+  配置
+    <bean id="bookDao" class="com.itheima.dao.impl.BookDaoImpl">
+        <property name="array">
+            <array><value>11</value><value>22</value></array>
+        </property>
+        <property name="list">
+            <list><value>itcast</value><value>itheima</value></list>
+        </property>
+        <property name="set">
+            <set><value>itcast</value><value>itheima</value></set>
+        </property>
+        <property name="map">
+            <map><entry key="count" value="china"/><entry key="world" value="jojo"/></map>
+        </property>
+        <property name="properties">
+            <props><prop key="country">china</prop><prop key="world">jojo</prop></props>
+        </property>
+    </bean>
+    
