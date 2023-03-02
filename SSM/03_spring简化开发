@@ -38,7 +38,24 @@ Spring3.0 升级了纯注解开发模式,实用Java类代替配置文件,开启�
 
 
 bean的管理
-  bean作用范围
-  bean生命周期
+  bean作用范围  @Scope
+  bean生命周期  @PostContruct @PreDestroy
   
+  @Configuration
+  @ComponentScan("com.itheima")
+    public class SpringConfig {}
+    
+  @Repository//@Scope设置bean的作用范围
+  @Scope("singleton")
+  public class BookDaoImpl implements BookDao {
+    public void save() {System.out.println("book dao save ...");}
+    @PostConstruct//@PostConstruct设置bean的初始化方法
+    public void init() { System.out.println("init ...");}
+    @PreDestroy//@PreDestroy设置bean的销毁方法
+    public void destroy() {System.out.println("destroy ...");}}
+    
+    
+
+
+注解开发依赖注入
   
