@@ -2,3 +2,43 @@
    注解开发bean
    纯注解开发
    
+注解开发bean
+  实用@Component定义bean
+   @Component("bookDao")
+   public class BookDaoImpl implements BookDao{}
+   @Component
+   public class BookServiceImpl implements BookService{}
+  核心配置文件中通过组件扫描加载bean
+    <context:component-scan base-package="com.itheima" />
+    
+Spring提供@Component注解的三个衍生注解
+  @Controller: 用于表现层bean定义
+  @Service: 用于业务层bean定于i
+  @Repository: 用于数据层bean定义
+  
+   @Repository("bookDao")
+   public class BookDaoImpl implements BookDao{}
+   @Service
+   public class BookServiceImpl implements BookService{}
+
+
+
+Spring3.0 升级了纯注解开发模式,实用Java类代替配置文件,开启了Spring快速开发赛道
+  Java类代理Spring核心配置文件  删去applicationContext.xml,增添SpringConfig.java
+   @Configuration    //声明当前类为Spring配置类
+   @ComponentScan({"com.itheima.service","com.itheima.dao"})  //设置bean扫描路径，多个路径书写为字符串数组格式
+   public class SpringConfig {}
+
+  加载配置文件初始化容器  ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
+  ==>  
+  加载配置类初始化容器  ApplicationContext ctx = new AnnotationConfigApplicationContext(SpringConfig.class);
+  
+  
+  
+
+
+bean的管理
+  bean作用范围
+  bean生命周期
+  
+  
