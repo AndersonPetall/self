@@ -36,7 +36,7 @@ AOP入门案例
   }
 AOP注解驱动配置 config.SpringConfig文件
   @Configuration
-  @ComponentScan("org.example")
+  @ComponentScan("org.example")   //必须是整个package
   @EnableAspectJAutoProxy
   public class SpringConfig {}
 绑定切入点与通知关系,指定通知添加到原始连接点具体执行位置 aop.MyAdvice文件
@@ -159,49 +159,165 @@ AOP通知类型
         return ret; //可以修改返回值  =>ret+100;
     }
 
+@Around注意事项
+  1.0 环绕通知必须依赖形参ProceedingJoinPoint才能实现对原始方法的调用,进而实现原始方法调用前后同时添加通知
+  2.0 通知中如果未调用ProceedingJoinPoint对原始方法进行调用将跳过原始方法的执行
+  3.0 对原始方法的调用可以不接受返回值,通知方法设置成void即可,如果接受返回值,必须设置成Object类型
+  4.0 原始方法的返回值如果是void类型,通知方法的返回值类型可以设置成void,也可以设置成Object
+  5.0 由于无法预知原始方法运行后是否会抛出异常,因此环绕通知方法必须抛出Throwable对象
 
 
 
 
 
 
+AOP通知获取数据
+  获取切入点方法的参数
+    JoinPoint: 适用于前置,后置,返回后,抛出异常后通知,设置为方法的第一个形参
+    ProceedJointPoint: 适用于环绕通知
+  获取切入点方法返回值
+    返回后通知
+    环绕通知
+  获取切入点方法运行异常信息
+    抛出异常后通知
+    环绕通知
+
+public class BookDaoImpl implements BookDao {
+  public String findName(int id,String password){
+      System.out.println("id: " + id);
+      return "itcast";}}
+  
+aop中MyAdvice文件  
+  @Pointcut("execution(* org.example.dao.BookDao.findName(..))")
+  private void pt(){}
+  //JoinPoint
+  @Before("pt()")
+  public void bofore(JoinPoint jp){
+      Object[] args= jp.getArgs();
+      System.out.println("before advice ... " + Arrays.toString(args));}
+  //JoinPoint
+  @After("pt(){}")
+  public void after(JoinPoint jp){
+      System.out.println("before advice ... " + Arrays.toString(jp.getArgs()));}
+  //ProceedJointPoint    
+  @Around("pt()")
+  public Object around(ProceedingJoinPoint pjp) throws Throwable{
+     Object[] args= pjp.getArgs();
+      System.out.println("around before advice ... " + Arrays.toString(pjp.getArgs()));//123, tiger
+      args[0]=555;
+      Object ret =  pjp.proceed(args);  // id:555
+      System.out.println("around after advice ... "+ Arrays.toString(pjp.getArgs()));//555, tiger
+      return ret;}
+  //ProceedJointPoint   抛出异常的另一种写法 
+  @Around("pt()")
+  public Object around(ProceedingJoinPoint pjp) {
+      Object[] args= pjp.getArgs();
+      System.out.println("around before advice ... " + Arrays.toString(pjp.getArgs()));//123, tiger
+      args[0]=555;
+      Object ret = null;
+      try{ret =  pjp.proceed(args);}catch (Throwable t){t.printStackTrace();}
+      return ret;}
+  //JoinPoint
+  @AfterReturning(value = "pt()", returning ="ret") //如果原始方式有返回值,就把返回值装到形参中
+  public void afterReturning(JoinPoint jp, Object ret){
+      System.out.println("after returning ... " + Arrays.toString(jp.getArgs()));  //after returning ... [555, tiger]
+      System.out.println("after returning ... " + ret);  //after returning ... itcast}
+  //JoinPoint
+  @AfterThrowing(value = "pt()", throwing="t")
+  public void afterThrowing(Throwable t){
+      System.out.println("after throwing ... " + t);}
+
+
+
+
+
+案例: 密码输入的空格消除
+dao文件
+  @Repository
+  public class ResourcesDaoImpl implements ResourcesDao {
+      public boolean readResources(String url, String password) {
+          System.out.println(password.length());
+          //模拟校验
+          return password.equals("root");}}
+service文件
+  @Service
+  public class ResourcesServiceImpl implements ResourcesService {
+      @Autowired
+      private ResourcesDao resourcesDao;
+      public boolean openURL(String url, String password) {return resourcesDao.readResources(url,password);}}
+config文件
+  @Configuration
+  @ComponentScan("com.itheima")
+  @EnableAspectJAutoProxy
+  public class SpringConfig {}
+aop文件
+@Component
+@Aspect
+public class DataAdvice {
+    @Pointcut("execution(boolean com.itheima.service.*Service.*(*,*))")
+    private void servicePt(){}
+
+    @Around("DataAdvice.servicePt()")
+    public Object trimStr(ProceedingJoinPoint pjp) throws Throwable {
+        Object[] args = pjp.getArgs();
+        for (int i = 0; i < args.length; i++) {
+            //判断参数是不是字符串  如果是消除其前后空格
+            if(args[i].getClass().equals(String.class)){args[i] = args[i].toString().trim();}
+        }
+        Object ret = pjp.proceed(args);//将消除空格的参数返回
+        return ret;}}
 
 
 
 
 
 
+AOP总结
+  概念: AOP(Aspect Oriented Programming)面向切面编程, 一种编程范式
+  作用: 在不惊动原始设计的基础上为方法进行功能的增强
+  核心概念:
+    代理(Proxy): SpringAOP的核心本质是采用代理模式实现的
+    连接点(JoinPoint): 在SpringAOP中, 理解为任意方法的执行
+    切入点(PointCut): 匹配连接点的式子, 也是具有共性功能的方法描述
+    通知(Advice): 若干个方法的共性功能, 在切入点处执行, 最终体现为一个方法
+    切面(Aspect): 描述通知与切入点的对应关系
+    目标对象(Target): 被代理的原始对象成为目标对象
+    
+  切入点表达式标准格式: 动作关键词(访问修饰符 返回值 包名.类名/接口名.方法名(参数(异常名)
+  
+  切入点表达式描述通配符
+    作用:用于快速描述,范围描述
+    种类:
+      *: 匹配任意符号(常用)
+      ..: 匹配多个连续的任意符号(常用)
+      +: 匹配子类类型
+  
+  切入点表达式书写技巧
+    1.0 按标准规范开发
+    2.0 查询操作的返回值建议使用*匹配
+    3.0 减少使用..的形式描述包
+    4.0 对接口进行描述,使用*表示模块名,例如UserService的匹配描述为*Service
+    5.0 方法名书写保留动词, 例如get, 使用*表示名词, 例如getById描述为getBy*
+    6.0 层数更具实际情况灵活调整
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  通知类型
+    前置通知
+    后置通知
+    环绕通知(重点)
+      环绕通知依赖形参ProcedingJoinPoint才能实现对原始方法的调用
+      环绕通知可以隔离原始方法的调用执行
+      环绕通知安费诺绘制设置为Object类型
+      环绕通知中可以对原始方法调用过程中出现的异常进行处理
+    返回后通知
+    抛出异常后通知
+    
+  AOP通知获取数据
+    获取切入点方法的参数
+      JoinPoint: 适用于前置,后置,返回后,抛出异常后通知,设置为方法的第一个形参
+      ProceedJointPoint: 适用于环绕通知
+    获取切入点方法返回值
+      返回后通知
+      环绕通知
+    获取切入点方法运行异常信息
+      抛出异常后通知
+      环绕通知
