@@ -1,0 +1,245 @@
+Springboot项目快速启动
+  点击 maven->SpringBoot01(项目名字)->LifeCycle->package   打成jar包
+  在jar包所在的位置进行cmd  然后执行启动指令  java -jar SpringBoot01(jar包名称)
+  
+注意事项: jar执行命令行启动需要依赖maven插件支持, 请确认打包时是否具有SpringBoot对应的maven插件
+<build>
+    <plugins>
+        <plugin>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-maven-plugin</artifactId>
+            <version>${project.parent.version}</version>
+        </plugin>
+    </plugins>
+</build>
+
+
+
+
+SpringBoot概述
+  设计目的: 用来简化Spring应用的初始搭建以及开发过程
+
+SpringBoot起步依赖
+  starter 
+    SpringBoot中常见项目名称,定义了当前项目使用的所有项目左边,以达到减少依赖配置的目的
+  parent
+    所有SpringBoot项目都要继承的项目,定义了若干个坐标版本号(依赖管理,而非依赖),以达到减少依赖冲突的目的
+  
+  实际开发
+    使用任意坐标时,仅书写GAV中的G和A,V由SpringBoot提供
+    如果发生坐标错误,再指定version(小心版本冲突)
+  
+  
+  辅助功能  ->  不为开发程序提供业务功能
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.0.5</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+    </dependencies>
+</project>
+  
+  启动方式
+@SpringBootApplication
+public class SpringBoot01Application {
+    public static void main(String[] args) {SpringApplication.run(SpringBoot01Application.class, args);}}
+  SpringBoot在创建项目时, 采用jar的打包方式
+  SpringBoot的引导类是项目的入口,运行main方法就可以启动项目
+
+  使用maven依赖管理变更起步依赖项   tomcat -> jetty
+  <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-web</artifactId>
+-            <exclusions>
+          <exclusion>
+              <groupId>org.springframework.boot</groupId>
+              <artifactId>spring-boot-starter-tomcat</artifactId>
+          </exclusion>
+      </exclusions>
+  </dependency>
+
+  <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-jetty</artifactId>
+  </dependency>
+  jetty比tomcat更加轻量级,可拓展性更强(相较于tomcat)
+
+
+
+
+简单的配置文件
+resources下application.properties文件,最高优先级
+  server.port = 80
+resources下application.yml文件
+  server:
+    port: 81
+resources下application.yaml文件,最底优先级
+  server:
+    port: 81
+
+yaml
+  YAML(YAML Ain't Markup Language), 一种数据序列化格式
+  YAML文件拓展名: .yml  .yaml
+EG:
+XML 
+  <enterprise> 
+    <name>itcase</name>
+    <age>18</age>
+  </enterprise>
+Properties
+  enterprise.name = itcase
+  enterprise.age = 16
+YAML
+  enterprise:
+    name: itcase
+    age: 18
+    
+YAML语法规则
+  大小写敏感
+  属性层级关系使用多行描述,每行结尾使用冒号结束
+  使用缩进表示层级关系, 同层级左侧对齐, 只允许使用空格(不允许使用Tab键)
+  属性值前面添加空格(属性名与属性值之间使用冒号+空格作为分隔)
+  #表示注解
+  
+YAML数组数据
+  数组数据在数据书写位置的下方使用减号作为数据开始符号, 每行书写一个数据,剑豪与数据间空格分隔
+  enterprise:
+    name: itcase
+    age: 15 
+    subject:
+      = Java
+      - C++
+      - React
+
+
+
+yaml数据读取
+application.yml
+  lesson: SpringBoot2
+  server:
+    port: 22
+  enterprise:
+    name: itcase
+    age: 18
+    subject:
+      - Java
+      - C++
+      - React
+
+  方式一: 使用@Value读取单个数据,读取方式 ${一级属性名.二级属性名字...}
+    @RestController
+    @RequestMapping("/books")
+    public class BookController{
+      @Value("${lesson}")
+      private String lessonName;
+      @Value("${enterprise.subject[0]}")
+      private String subject0;
+    }
+  方式二: 封装全部数据到Environment对象中
+    @RestController
+    @RequestMapping("/books")
+    public class BookController{
+      @Autowired
+      private Environment env;
+      system.out.println(env.getProperty("enterprise.subject[0]"));
+    }
+  方式三: 自定义对象封装指定数据
+    @Component
+    @ConfigurationProperties(prefix = "enterprise");
+    public class Enterprise{
+      private String name; private Integer age; private String[] subject;
+    }
+    @RestController
+    @RequestMapping("/books")
+    public class BookController{
+      @Autowired
+      private Enterprise en;
+      system.out.println(Arrays.toString(en.getSubject()));
+    }
+
+
+
+
+
+
+多环境启动
+YAML文件中
+#设置启动的环境
+spring:
+  profiles:
+    active: "dev"
+---
+spring:
+  config:
+    activate:
+      on-profile: "dev"
+server:
+  port: 10
+---
+spring:
+  config:
+    activate:
+      on-profile: "pro"
+server:
+  port: 11
+---
+spring:
+  config:
+    activate:
+      on-profile: "test"
+server:
+  port: 12
+
+properties文件多环境启动
+  主启动配置文件application.properties
+    spring.profiles.active = pro
+  环境分类配置文件applicaton-pro.properties
+    server.port=10
+  环境分类配置文件applicaton-dev.properties
+    server.port=11
+  环境分类配置文件applicaton-test.properties
+    server.port=12
+
+
+
+
+多环境启动命令格式
+  普通: java -jar application-0.0.1-SNAPSHOT.jar(jar包名)                              
+  启动test环境: java -jar application-0.0.1-SNAPSHOT.jar(jar包名)  --spring.profiles.active=test  
+  启动test环境+指定端口: java -jar application-0.0.1-SNAPSHOT.jar(jar包名)  --spring.profiles.active=test   --server.port=88             
+
+
+
+多环境开发
+  Maven指令执行完毕后,生成了对应的包,其中类参与编译,但是配置文件并没有编译,二十而知道包中
+    spring:
+      profiles:
+        active: ${profile.active}
+    ==经过复制==>
+    spring:
+      profiles:
+        active: ${profile.active}
+  对自建文件开启对默认占位符的解析
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-resources-plugin</artifactId>
+        <configuration>
+          <encoding>utf-8</encoding>
+          <useDefaultDelimiters>true</useDefaultDelimiters>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+  
