@@ -1,0 +1,72 @@
+新特性总概:
+  Java Record
+  Swich开关表达式
+  Text Block文本块
+  var生命局部变量
+  sealed密封类
+
+
+Java Record
+  14中的新特性,Record是一种特殊类型的Java类. 可以用来创建不可变类,语法简短
+普通的Java类,能做到
+  每个字段的set,get方法
+  公共的构造方法
+  重写hashCode,toString(),equals()方法
+Record的特点:
+  带有全部参数的构造方法
+  public访问器
+  toString(), hashCode(), equals()
+  无set,get方法. 没有遵循Bean的命名规范
+  final类,不能继承Record. Record为隐式的final类,除此之外与普通类一样
+  不可变类,通过构造创建Record
+  final属性,不可修改
+  不能生命实例属性,能声明static成员
+
+
+
+
+
+sealed
+  sealed为密封,Sealed Classes主要特点是限制继承,Java中通过继承增强,拓展了类的能力,服用某些功能,当这种能力不受控,与原有的类的设计相互违背,导致不遇见的异常逻辑
+  作用: 限制无线的扩张
+  
+  Java中已有sealed的设计: final关键字,修饰类不能被继承   private限制私有类
+  
+  sealed作为关键字可在class和interface上使用,结合permits关键字,定义限制继承的密封类
+
+语法: sealed class 类名 permits 子类1,子类2...{}
+
+step1: 声明sealed Class
+  public sealed class Shape permits Circle, Square, Rectangle{   //permits表示允许的子类,一个或者多个
+    private Integer width; private Integer height;
+    public void draw(){ System.out.println("====Shape图形====");}
+  }
+step2: 声明子类
+  三种子类:
+    final中介, 依然是密封的
+    sealed 该子类是密封类, 需要其子类实现
+    non-sealed 非密封类, 拓展使用, 不受限制
+子类一: 
+  public finalclass Circle extends Shape{}
+子类二:
+  public sealed class Square extends Shape permits RoudSquare{
+    @Override
+    public void draw(){ System.out.println("====Square图形====");}
+  }
+子类二的子类:
+  public final class RoundSquare extends Square{}
+子类三:  非密封类,  可以拓展,放弃密封
+  public non-sealed class Rectangle extends Shape{}
+子类三的子类:
+  public class Line extends Rectangle{}
+
+
+Sealed Interface
+step1: 声明密封接口
+  public sealed interface SomeService permits SomeServiceImpl{ void doThing();}
+step2: 实现接口
+  public final class SomeServiceImpl { 
+    @Override
+    void doThing(){};}
+
+
