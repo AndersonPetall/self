@@ -1,0 +1,180 @@
+SpringBoot 
+  约定大于配置: 例如,启动类在根包的路径下,使用了@SpringBootApplication注解. 创建了默认的测试类,controller,service,dao应该放在根包的子包中,Application为默认的配置文件
+  
+代码结构
+结构1: 单一模块
+  Application.java 启动类
+  --controller 控制器包
+    Student Controller.java
+  --service 业务层包
+    --inter 业务层接口
+    --impl  业务层实现
+  --repository 持久层包
+  --model  模型包
+    --entity 实体类包
+    --dto  数据传输包
+    --vo  视图数据包
+结构2: 多个模块
+  Application.java 启动类
+  --activity  模块_活动模块
+    --controller 控制器包
+    --service 业务层包
+    --repository 持久层包
+    --model  模型包
+  --sale  模块_销售模块
+    --controller 控制器包
+    --service 业务层包
+    --repository 持久层包
+    --model  模型包
+  --customer  模块_消费者模块
+    --controller 控制器包
+    --service 业务层包
+    --repository 持久层包
+    --model  模型包
+
+
+starter  启动器/启动依赖
+  starter是一组依赖描述,应用中包含starter,可以获取spring相关技术的一站式依赖和版本
+  种类:
+    spring-boot-starter-xxx: 是spring 官方推出的启动器
+    xxx-starter: 非spring推出,由其他的组织提供的
+  starter包含:
+    依赖坐标,版本
+    传递依赖的坐标,版本
+    配置类,配置项
+    
+
+项目打包  mvn package  ==> SpringBootWeb.jar
+项目运行  java -jar  SpringBootWeb.jar(项目名字)
+普通jar与SpringBoot jar区别:
+  目录____SpringBoot jar:
+    BOOT-INF: 引用的class和依赖jar
+    META-INF: 清单
+    org.springframework.boot.loader: spring-boot-loader模块类
+  目录____普通jar:
+    META-INF: 清单
+    class的文件夹: jar中所有类
+  BOOT-INF____SpringBoot jar:
+    class: 应用的类
+    lib: 引用的依赖
+  BOOT-INF____普通jar:
+    没有BOOT-INF
+  spring-boot-loader____SpringBoot jar:
+    执行jar的spring boot类
+  spring-boot-loader____普通jar:
+    没有此部分
+  可执行____SpringBoot jar: 能
+  可执行____普通jar: 否
+
+
+
+@Value读取配置数据
+  语法: 
+    @Value("${key:默认值}") //默认值可以省略
+    private String key;
+environment读取配置数据
+  String name = environment.getProperty("app,name");
+  //key是否存在
+  if(environment.containsProperty("app.owner")){
+    System.out.println("存在该配置"};}
+  //读取配置并且修改
+  Integer port = environment.getProperty("app.port",Integer.class,8000);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
