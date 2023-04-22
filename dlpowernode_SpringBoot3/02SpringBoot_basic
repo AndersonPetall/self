@@ -88,32 +88,143 @@ environment读取配置数据
 
 
 
+属性绑定  与  嵌套Bean
+properties.yml文件
+app1:
+  name: Lession07
+  owner: REN
+  port: 9999
+  security:
+    username: root
+    password: 123456
+Bean文件
+public class Security{
+  private String username;
+  private Integer password;
+  setXXXmethod; getXXXmethod; toStringmethod;
+}
+//@Component   生成的bean为代理模式
+@Configuration(proxyBeanMethods = false)   //生成的bean为原来的bean,不为代理模式
+@ConfigurationProperties(prefix = "app1")
+public class NestBean{
+  private String name;
+  private String owner;
+  private Integer port;
+  private Security security;
+  setXXXmethod; getXXXmethod; toStringmethod;
+}
+Application文件
+@SpringBootApplication
+public class Spring07BeanBindApplication {
+    public static void main(String[] args) {SpringApplication.run(Spring07BeanBindApplication.class, args);}}
+
+
+
+扫描注解
+properties.yml文件
+app1:
+  name: Lession07
+  owner: REN
+  port: 9999
+Bean文件
+@ConfigurationProperties(prefix = "app1")
+public class NestBean{
+  private String name;
+  private String owner;
+  private Integer port;
+  private Security security;
+  setXXXmethod; getXXXmethod; toStringmethod;
+}
+Application文件
+//@EnableConfigurationProperties({NestBean.class})   //属性是类的名字
+@ConfigurationPropertiesScan(basePackages = {"example.spring07_beanbind.pk1"})   //属性是包名
+@SpringBootApplication
+public class Spring07BeanBindApplication {
+    public static void main(String[] args) {SpringApplication.run(Spring07BeanBindApplication.class, args);}}
+
+
+
+
+第三方库对象处理
+场景:  某个类需要在配置文件中提供数据,但是没有源代码
+方法:创建配置类
+@Configuration
+public class ApplicationConfig{
+  @ConfigurationProperties(prefix = "security")
+  @Bean
+  public Security createSecurity(){return new Security();}}
 
 
 
 
 
 
+集合 Map，List 以及 Array
+properties.yml文件
+names:
+  - lisi
+  - zhangsan
+servers:   //-表示一个成员,成员是对象,需要属性名称指定属性值. List与Array之间需要加入"-"表示一个成员.Map直接指定key与value,无需"-"
+  - title: 华北服务器
+    ip: 202.12.39.1
+  - title: 西南服务器
+    ip: 106.90.23.229
+  - title: 南方服务器
+    ip: 100.21.56.23
+#Map<String,User> users
+users:
+  user1:
+    name: 张三
+    sex: 男
+    age: 22
+  user2:
+    name: 李四
+    sex: 男
+    age: 26
+Bean文件
+@ConfigurationProperties(prefix = "app1")
+public class MyServer{
+  private String name;
+  private String ip;
+  setXXXmethod; getXXXmethod; toStringmethod;
+}
+public class User{
+  private String name;
+  private String age;
+  private String sex;
+  setXXXmethod; getXXXmethod; toStringmethod;
+}
+public class CollectionConfig{
+  private List<MyServer> servers;
+  private Map<String,User> users;
+  private String[] names;
+  setXXXmethod; getXXXmethod; toStringmethod;
+}
+Application文件
+@ConfigurationPropertiesScan(basePackages = {"example.spring07_beanbind.pk2"})
+@SpringBootApplication
+public class Spring07BeanBindApplication {
+    public static void main(String[] args) {SpringApplication.run(Spring07BeanBindApplication.class, args);}}
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+指定数据源文件
+场景:指定某一个文件作为数据源
+数据文件group-info.properties
+group.name = IF study
+group.leader = unknow
+group.members = 500
+Bean文件
+@Configuration
+@ConfigurationProperties(prefix = "group")
+@PropertySource(value = "classpath:/group-info.properties")
+public class Group{
+  private String name;
+  private String leader;
+  private Integer members;
+  setXXXmethod; getXXXmethod; toStringmethod;
+}
 
 
 
