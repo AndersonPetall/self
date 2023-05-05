@@ -233,35 +233,117 @@ public class Group{
 
 
 
+AOP: Aspect Oriented Programming 面向切面编程
+Aspect：表示切面，开发自己编写功能增强代码的地方，这些代码会通过动态代理加入到原有的业务方法中。
+  @Aspect 注解表示当前类是切面类。 切面类是一个普通类。
+Joinpoint：表示连接点，连接切面和目标对象。或是一个方法名称，一个包名，类名。在这个特定的位置执行切面中的功能代码。
+切入点（Pointcut）：其实就是筛选出的连接点。一个类中的所有方法都可以是 JoinPoint, 具体的那个方法要增加功能，这个方法就是 Pointcut
+Advice：翻译是通知，也叫做增强。表示增强的功能执行时间。 Java 代码执行的单位是方法，方法是业务逻辑代码，在方法之前增加新的功能，还是方法之后增加功能。表示在方法前，后等的就是通知
+@Before：在切点方法之前执行。
+@After：在切点方法之后执行
+@AfterReturning：切点方法返回后执行
+@AfterThrowing：切点方法抛异常执行
+@Around：属于环绕增强，能控制切点执行前，执行后。功能最强的注解。
+
+pom.xml文件
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-aop</artifactId>
+		</dependency>
+	</dependencies>
+server.SomeServiceImpl文件
+@Service
+public class SomeServiceImpl implements SomeService {
+    @Override
+    public void query(Integer Id) {System.out.println("SomeService的业务方法query" + Id);}
+    @Override
+    public void save(String name, Integer age) {System.out.println("SomeService的业务方法save" + name + age);}}
+aspect.LogAspect文件
+@Component
+@Aspect
+public class LogAspect {
+    //函数执行前运行
+    @Before("execution(* example.sping08_aop.service..*.*(..))")
+    public void sysLog(JoinPoint jp){
+        StringJoiner log = new StringJoiner("|","{","}");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        log.add(formatter.format(LocalDateTime.now()));
+        //当前执行的方法名称
+        String methodName = jp.getSignature().getName();
+        //方法的参数
+        Object[] args = jp.getArgs();
+        for(Object arg:args){log.add(arg == null ? "-" : arg.toString());}
+        System.out.println("日志: " + log);
+    }
+}
 
 
 
 
 
 
+自动装配
+  从类的路径种查找xxx.jar, 创建这个jar种某些需要的Bean
+  如果有mybatis.jar, 会尝试创建DateSource(根据配置文件中的url, usename, password)连接数据库, 还需要创建SqlSessionFactory,Dao接口的代理对象
+
+
+@EnableAutoConfiguration: 启动自动配置
+@Import(AutoConfigurationImportSelector.class)
+  === 加载文件 ===>
+文件xxx.imports
+自动配置类的列表, SpringBoot遍历列表,加载各个配置类
+  === 指定类路径 ===>
+XXXautoConfiguration
+比如Aop的自动配置类, MyBatis的自动配置类. 实现化对象,比如MyBatis的对象
+
+XXXproperties:绑定Bean
+加载application中的配置
+  === ===>
+XXXautoConfiguration
+比如Aop的自动配置类, MyBatis的自动配置类. 实现化对象,比如MyBatis的对象
+
+@Confitional
+条件注解,当符合条件的时候,自动配置有效
+  === 提供前置条件 ===>
+XXXautoConfiguration
+比如Aop的自动配置类, MyBatis的自动配置类. 实现化对象,比如MyBatis的对象
+
+starter依赖
+例如: mybatis-spring-boot-starter
+  === 依赖和配置类 ===>
+XXXautoConfiguration
+比如Aop的自动配置类, MyBatis的自动配置类. 实现化对象,比如MyBatis的对象
 
 
 
 
 
 
+事务
+  事务氛围全局事务和本地事务,本地事务时特定于资源的,例如于JDBC连关联的事务.本地事务可能更容易使用,
+   但有一个显著的缺点:他们不能跨多个事务资源工作. 比如在方法中处理连接多个数据库的事务,本地事务时无效的
+  Spring解决了全局和本地事务的缺点.它允许应用程序开发猿人在任何环境中使用一致的编程模型.只需要编写一次代码,
+   就可以从不同的环境中的不同事物管理策略中获获益.Spring框架同时提供声明式和编程式事务管理.推荐使用声明式事务管理
+  Spring事务抽象的关键是事务策略的概念, org.springframework.transaction.PlatformTransactionManager接口定义了事务的策略
 
+事务控制的属性
+  Propagation: 传播行为. 代码可以继续在现有的事务中运行(常见情况), 也可以暂停现有的事务并且创建新的事务
+  Isolation: 隔离级别. 此事务与其他事务的工作隔离的程度.例如这个事务可以看见其他事务未提交的写吗?
+  Timeout: 超时时间. 该事务在超时和被底层事务基础结构自动回滚之前运行的时间
+  Read-only: 只读状态. 当代码读取但不修改数据时, 可以使用只读事务.在某些情况下,例如Hibernate时,只读事务可能是一种有用的优化
 
+AOP:
+  Spring Framework的声明式事务管理是通过Spring面向切面编程(AOP)实现的.事务方面的代码以样板的方式使用,即使不了解AOP概念,仍然可以有效的使用这些代码.事务使用AOP的环绕通知(transactionInterceptor)
 
+申明事务的方式:
+  XML配置文件: 全局配置
+  @Transactional注解驱动: 和代码一起提供,比较直观. 和代码耦合比较高.
+  (Spring团队建议您只用@Transactional注解具体类(以及具体类的方法),而不是注释接口.当然,可以将@Transactional注解放在接口(或者接口方法)上,但这只有在使用基于接口的代理时才能正常工作)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+方法的可见性:
+  public方法应用@Transactional主机.如果使用@Transactional注释了受保护的,私有的或者包可见的方法,则不会引发错误,但是注释的方法不会显示配置的事务设置,事务不生效.
+   如果需要受保护的,私有的方法具有事务考虑使用AspectJ. 而不是基于代理的机制.
 
 
 
