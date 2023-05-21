@@ -351,23 +351,130 @@ AOP:
 
 
 
+SpringBoot -> MyBatis
+1.0 加入MyBatis的starter, MySQL驱动(8.0.32)
+2.0 创建实体类 xxxPO, xxxEntity, xxxDomain
+3.0 创建Mapper接口,在接口中定义方法,在方法上面使用合适的注解
+  @Select  查询, 使用@Result2和@Result做结果映射
+  @Insert  新增
+  @Update  更新
+  @Delete  删除
+4.0 在启动上面,加入@MapperScan
+  @MapperScan(basePackages = "example.spring10_mybatis.mybatis.mapper")
+5.0 application.properties
+ 5.1 定义数据库连接
+ 5.2 mybatis设置
+   日志
+   驼峰命名法
+ 
+ ResultMap: 结果映射,将查询结果中的列和实体Bean的属性对应关系
+ 通过在xml文件中使用<resultMap>标签定义映射关系,在其他的<select resultMap="xxx">
+ 
+ 注解中的映射
+ 1.0 @Results和Result
+   @Results(id="BasicMap1", value={@Result(column="", property=""})
+ 2.0 @ResultMap
+   @ResultMap("BasicMap1")
+
+@ResultMap使用方式:
+第一种: 先通过@Results定义列的映射关系, @ResultMap(value="@Results的id")
+第二种: 在xml中定义<resultMap id="xxx">, 在代码中使用@ResultMap(value="xml的id")
+
+
+
+提供sql语句, 使用提供者
+@SelectProvider
+@InsertProvider
+@UpdateProvider
+@DeleteProvider
+提供者类: 定义一个普通类, 定义静态方法, 方法的返回值要执行sql语句
+
+关系
+@One   一对一
+@Many  一对多
+
+
+MybatisAutoConfiguration:  自动配置类
+
+1.0 SqlSessionFactory   能够获取SqlSession
+2.0 SqlSessionTemplate  用于执行sql语句,mybatis和spring整合时,使用的模板对象
+3.0 MapperFactoryBean   创建dao接口的代理对象
+
+连接池, 连接的大小的控制
+  connections = ((cpu核心数*2) + 磁盘数量) 近似值   默认10
+  
+
+事务:Spring的事务管理
+采用声明式事务管理,注解方式为@Transactional, 在public方法的上面加入注解
+控制事务
+  1.0 传播行为
+  2.0 隔离级别
+  3.0 只读
+  4.0 超时时间
+  
+回滚规则:
+  1.0 业务发生RuntimeException 和 Error回滚事务
+  2.0 使用@Transactional的 rollbackFor控制事务的回滚类型
 
 
 
 
 
+SpringMVC
+一, 控制器
+  @Controller @RestController    一般一个业务是一个控制器,
+    @RestController = @Controller + @ResponseBody(方法的返回值是数据可以通过HttpServletResponse输出给浏览器,请求方法)
+    @Controller注解由@Component的功能, 控制器类对象是Spring容器管理的
+  控制器方法
+    方法上面的@RequestMapping(value="请求的uri地址"): 表示这个uri的请求由当前的方法处理
+      @GetMapping  @PostMapping @PutMapping @DeleteMapping
+    控制器方法的形参,接受请求的参数,多种方法接受参数
+    控制器方法的返回值,表示答应结果,给请求结果(数据,视图)
+   
+   
+   
+匹配请求路径到控制器的方法
+  SpringMVC支持多种策略, 匹配请求路径到控制器的方法. AntPathMatcher, PathPatternParser
+    1.0 spring.mvc.pathmatch.matching-strategy = ant_path_matcher
+    2.0 spring.mvc.pathmatch.matching-strategy = path_pattern_parser  推荐使用,比之前ant_path_matcher提示6-8倍吞吐量
+  PathPatternParser中有关uri的定义
+    通配符:
+      ? : 一个字符
+      * : 0或者多个字符. 在一个路径段中匹配字符
+      ** : 匹配9个躲着多个路径段,相当于是所有
+      正则表达式 : 支持正则表达式
+      
+    RESTFul的支持路径变量
+    {变量名}
+    {myname:[a-z]+} : 正则匹配a-z多个字面, 路径变量名称"myname", @PathVariable("myname")
+    {*myname} : 匹配多个路径一直到uri的结尾
+  
 
 
 
+接受请求参数
+  简单类型 + 对象类型
+  @RequestParam注解,将查询参数,form表单数据解析到方法参数,解析multipart文件
+  @RequestBody主机, 接受前端传递的json格式参数
+  HttpServletRequest  使用request对象接受参数   request.getParameter("...")
+  @RequestHeader  从请求header中获取某项值
+  解析参数需要的值,SpringMVC中转盟有个接口来干这个事情,就是HandlerMethodArgumentResolver, 用以解析请求得到的Controller方法的参数值
+  
 
-
-
-
-
-
-
-
-
-
-
-
+Java Bean Validation 验证模型属性值是否符合预期
+  @Null    被注释的元素必须为null
+  @NotNull    被注释的元素必须不为null
+  @AssertTrue	  被注释的元素必须必须为True
+  @AssertFalse    被注释的元素必须为false
+  @Min(value)    被注释的元素必须是一个数字,其值必须大于等于指定的最小值
+  @Max(value)    被注释的元素必须是一个数字,其值必须小于等于指定的最大值
+  @DecimalMin(value)    被注释的元素必须是一个数字,其值必须大于等于指定的最小值
+  @DecimalMax(value)    被注释的元素必须是一个数字,其值必须小于等于指定的最大值
+  @Size(max, min)    被注释的元素的大小必须在指定的范围内
+  @Digits(integer, fraction)    被注释的元素必须是一个数字,其值必须在可接受的范围内
+  @Past    被注释的元素必须是一个过去的日期
+  @Future    被注释的元素必须是要给将来的日期
+  @Pattern(value)    被注释的元素必须符合指定的正则表达式
+  @Email    被注释的元素必须是电子邮箱的地址
+  @NotEmpty    被注释的字符串必须非空
+  
